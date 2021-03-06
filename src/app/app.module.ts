@@ -8,10 +8,12 @@ import { reducers, metaReducers } from './reducers';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { NavComponent } from './components/nav/nav.component';
 
 @NgModule({
   declarations: [
     AppComponent,
+    NavComponent,
   ],
   imports: [
     BrowserModule,
