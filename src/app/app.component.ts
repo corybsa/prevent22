@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { AuthService } from './services/auth/auth.service';
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   date = new Date().getFullYear();
+
+  constructor(
+    private authService: AuthService
+  ) {}
+
+  check() {
+    this.authService.check().subscribe();
+  }
+
+  login() {
+    this.authService.login('corybsa', '!@#$QWER1234qwer').subscribe();
+  }
 }
