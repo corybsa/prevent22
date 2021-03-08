@@ -14,14 +14,17 @@ module.exports.login = (req, next) => {
             if (err) {
                 next(err, null);
             } else {
-                // TODO: check password
                 const data = helper.processResults(user.recordset[0]);
+
+                if(!data) {
+                    return next({ message: 'Invalid username or password.' }, null);
+                }
                 
                 helper.verifyPassword(req.body.Password, data.Hash, (err, result) => {
                     if(err) {
                         next(err, null);
                     } else if(!result) {
-                        next(`failed ${err}`, null);
+                        next({ message: 'Invalid username or password.' }, null);
                     } else {
                         delete data.Hash;
                         next(null, data);

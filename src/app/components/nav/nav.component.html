@@ -43,17 +43,22 @@
                         Gear &amp; Apparel
                     </a>
                 </li>
-                <li class="nav-item nav-item-right dropdown">
+                <li class="nav-item nav-item-right dropdown" *ngIf="user">
                     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                        Username here
+                        {{ user.Username }}
                     </a>
                     <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
                         <a class="dropdown-item" routerLink="/profile">Profile</a>
-                        <div class="dropdown-divider dropdown-admin-divider">Admin Options (AUTHED)</div>
-                        <a class="dropdown-item" routerLink="/admin">Manage Users (AUTHED)</a>
+                        <ng-container *ngIf="user.hasRole(roles.Admin)">
+                            <div class="dropdown-divider dropdown-admin-divider">Admin Options</div>
+                            <a class="dropdown-item" routerLink="/admin">Manage Users</a>
+                        </ng-container>
                         <div class="dropdown-divider"></div>
-                        <a class="dropdown-item" routerLink="" (click)="logout()">Logout (AUTHED)</a>
+                        <a class="dropdown-item" routerLink="" (click)="logout()">Logout</a>
                     </div>
+                </li>
+                <li class="nav-item nav-item-right" *ngIf="!user">
+                    <a class="nav-link" routerLink="/login">Login</a>
                 </li>
             </ul>
         </div>

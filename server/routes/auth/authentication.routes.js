@@ -8,15 +8,8 @@ const Auth = require('../../models/auth/auth.model');
 
 router.post('/check', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
-        console.log('err', err);
-        console.log('user', user);
-        console.log('info', info);
         if(err) {
             return res.status(400).json(err);
-        }
-
-        if(!user) {
-            // return res.status(400).json(info);
         }
 
         let sessionUser;
@@ -28,7 +21,7 @@ router.post('/check', (req, res, next) => {
         }
 
         if(!sessionUser) {
-            res.status(404).json({ message: 'User not found' });
+            res.status(200).json({ message: 'User not found' });
         } else {
             const params = [
                 { name: 'StatementType', type: sql.Int, value: 1 },
@@ -46,7 +39,6 @@ router.post('/login', (req, res, next) => {
     passport.authenticate('local', (err, user, info) => {
         Auth.login(req, (err, user) => {
             if (err) {
-                console.log(err);
                 res.status(500).json(err);
             } else {
                 req.login(user, (err) => {
@@ -55,6 +47,12 @@ router.post('/login', (req, res, next) => {
             }
         });
     })(req, res, next);
+});
+
+router.post('/logout', (req, res, next) => {
+    req.logout();
+    res.clearCookie('sessionId', { httpOnly: true });
+    res.status(200).json(null);
 });
 
 module.exports = router;

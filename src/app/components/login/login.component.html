@@ -30,6 +30,7 @@
                                     #password="ngModel" />
                                 <div [hidden]="password.valid || password.pristine" style="color: red;">Password is required</div>
                             </div>
+                            <div [hidden]="errorMessage === ''" style="color: red;">{{errorMessage}}</div>
                             <button type="submit" class="btn btn-danger">Login</button>
                         </form>
                         <p>New around here? <a routerLink="/register" class="p22-link">Create an account</a>.</p>

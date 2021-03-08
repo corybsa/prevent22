@@ -26,7 +26,9 @@ class Helper {
         this.params = [];
 
         this.roles = {
-
+            Admin: 1,
+            Moderator: 2,
+            User: 3
         };
 
         this.sqlConfig = config.sql;

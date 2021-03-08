@@ -50,12 +50,10 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser((user, done) => {
-    console.log('serializeUser');
     done(null, user.UserId);
 });
 
 passport.deserializeUser((userId, done) => {
-    console.log('deserializeUser');
     const params = [
         { name: 'StatementType', type: sql.Int, value: 1 },
         { name: 'UserId', type: sql.NVarChar, value: userId }
@@ -111,7 +109,7 @@ app.use(session({
     secret: config.appSecret,
     resave: true,
     rolling: true,
-    saveUninitialized: false
+    saveUninitialized: true
 }));
 
 app.use(csrf());
@@ -135,10 +133,10 @@ app.use('/api', apiLimiter, api);
 //*****************************************************
 //send all other request to the Angular App
 //*****************************************************
-app.get('*', fileSystemLimiter, (req, res) => {
+app.all('*', fileSystemLimiter, (req, res) => {
     res.cookie('XSRF-TOKEN', req.csrfToken(), {
         path: '/',
-        secure: true, // require HTTPS connection
+        secure: false, // require HTTPS connection
         sameSite: true // blocks CORS requests on cookies
     });
 
