@@ -42,6 +42,21 @@ export class AuthService {
         return this.http.post(url, null);
     }
 
+    register(
+        username: string,
+        password: string,
+        confirmPassword: string
+    ): Observable<User> {
+        const url = '/api/auth/register';
+        const options = {
+            username,
+            password,
+            confirmPassword
+        };
+
+        return this.http.post<User>(url, options);
+    }
+
     getParams(data: any): { params: HttpParams } {
         if (typeof data !== 'object') {
             throw new Error('Data must be an object');

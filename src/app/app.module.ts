@@ -14,12 +14,16 @@ import { HttpClientModule } from '@angular/common/http';
 import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './services/auth/auth.guard';
+import { RegisterComponent } from './components/register/register.component';
+import { PasswordValidatorDirective } from './directives/password-validator.directive';
 
 @NgModule({
   declarations: [
     AppComponent,
     NavComponent,
     LoginComponent,
+    RegisterComponent,
+    PasswordValidatorDirective,
   ],
   imports: [
     BrowserModule,

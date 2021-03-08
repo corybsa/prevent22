@@ -1,6 +1,6 @@
 const sql = require('mssql');
-const crypto = require('crypto');
 const Helper = require('../../helper');
+const StatementType = require('../../statement-type');
 const helper = new Helper();
 
 module.exports.login = (req, next) => {
@@ -33,6 +33,28 @@ module.exports.login = (req, next) => {
             }
         });
     } catch (e) {
+        next({ message: e.message }, null);
+    }
+};
+
+module.exports.register = (req, next) => {
+    if(req.body.password !== req.body.confirmPassword) {
+        return next({ message: 'Passwords do not match.' }, null);
+    }
+
+    try {
+        helper.checkString(req, 'username', helper.REQUIRED);
+        
+        helper.hashPassword(req.body.password, (err, hash) => {
+            params = [
+                { name: 'StatementType', type: sql.NVarChar, value: StatementType.Create },
+                { name: 'Username', type: sql.NVarChar, value: req.body.username },
+                { name: 'Hash', type: sql.NVarChar, value: hash }
+            ];
+    
+            helper.exec('sp_Users', params, next);
+        });
+    } catch(e) {
         next({ message: e.message }, null);
     }
 };

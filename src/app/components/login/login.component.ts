@@ -30,8 +30,8 @@ export class LoginComponent implements OnInit {
   ngOnInit(): void {
   }
 
-  submit(loginForm: NgForm) {
-    if(loginForm.valid) {
+  submit(form: NgForm) {
+    if(form.valid) {
       this.authService.login(this.userModel.username, this.userModel.password)
         .pipe(
           tap(user => this.store.dispatch(setUser({ user: User.getInstance(user) }))),

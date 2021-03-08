@@ -49,7 +49,17 @@ router.post('/login', (req, res, next) => {
     })(req, res, next);
 });
 
-router.post('/logout', (req, res, next) => {
+router.post('/register', (req, res) => {
+    Auth.register(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset[0]));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
+router.post('/logout', (req, res) => {
     req.logout();
     res.clearCookie('sessionId', { httpOnly: true });
     res.status(200).json(null);
