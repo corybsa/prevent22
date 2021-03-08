@@ -1,4 +1,5 @@
 const sql = require('mssql');
+const crypto = require('crypto');
 const Helper = require('../../helper');
 const helper = new Helper();
 
@@ -10,12 +11,22 @@ module.exports.login = (req, next) => {
         ];
 
         helper.exec('sp_Users', params, (err, user) => {
-            // TODO: check password
-
             if (err) {
                 next(err, null);
             } else {
-                next(null, helper.processResults(user.recordset[0]));
+                // TODO: check password
+                const data = helper.processResults(user.recordset[0]);
+                
+                helper.verifyPassword(req.body.Password, data.Hash, (err, result) => {
+                    if(err) {
+                        next(err, null);
+                    } else if(!result) {
+                        next(`failed ${err}`, null);
+                    } else {
+                        delete data.Hash;
+                        next(null, data);
+                    }
+                });
             }
         });
     } catch (e) {

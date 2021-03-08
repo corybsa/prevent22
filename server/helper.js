@@ -3,6 +3,7 @@ const moment = require('moment');
 const config = require('../server/config/config');
 // const multer = require('multer');
 const crypto = require('crypto');
+const bcrypt = require('bcrypt');
 // const fs = require('fs');
 
 class ApiError {
@@ -120,7 +121,7 @@ class Helper {
                     case sql.Int:
                         break;
                     case sql.DateTime:
-                    case sql.NVarChar:
+                    case sql.NconstChar:
                         paramsLog[i] = `\'${paramsLog[i]}\'`;
                         break;
                 }
@@ -159,7 +160,7 @@ class Helper {
                     case sql.Int:
                         break;
                     case sql.DateTime:
-                    case sql.NVarChar:
+                    case sql.NconstChar:
                         paramsLog[i] = `\'${paramsLog[i]}\'`;
                         break;
                 }
@@ -215,6 +216,14 @@ class Helper {
       return multer({ storage });
     } */
 
+    hashPassword(password, callback) {
+        bcrypt.hash(password, config.crypto.costFactor, callback);
+    }
+
+    verifyPassword(password, hash, callback) {
+        bcrypt.compare(password, hash, callback);
+    }
+
     /**
      * Gets SQL type based on <code>param</code>
      *
@@ -223,7 +232,7 @@ class Helper {
      */
     getParamType(param) {
         if (!param) {
-            return sql.NVarChar;
+            return sql.NconstChar;
         }
 
         if (/^true$|^false$/i.test(param)) {
@@ -238,7 +247,7 @@ class Helper {
             return sql.DateTime;
         }
 
-        return sql.NVarChar;
+        return sql.NconstChar;
     }
 
     /**
@@ -368,7 +377,7 @@ class Helper {
                 return false;
             case sql.DateTime:
                 return null;
-            case sql.NVarChar:
+            case sql.NconstChar:
                 return '';
             default:
                 return '';
@@ -415,7 +424,7 @@ class Helper {
 
         params[param] = params[param] !== null ? moment(Date.parse(params[param])).format(this.DATE_FORMAT) : null;
 
-        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
+        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
     }
 
     /**
@@ -438,7 +447,7 @@ class Helper {
 
         params[param] = params[param] !== null ? moment(Date.parse(params[param])).format(this.DATETIME_FORMAT) : null;
 
-        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
+        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
     }
 
     /**
@@ -482,7 +491,7 @@ class Helper {
      * @param {string[]} [validValues] - The valid that are allowed to be passes.
      */
     checkString(req, param, isRequired = true, validValues) {
-        const params = this.getParameter(req, param, isRequired, sql.NVarChar);
+        const params = this.getParameter(req, param, isRequired, sql.NconstChar);
 
         if (validValues) {
             let valid = false;
@@ -500,7 +509,7 @@ class Helper {
             }
         }
 
-        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
+        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
     }
 
     /**
@@ -589,7 +598,7 @@ class Helper {
 
     getDatabaseUser(username, next) {
         const params = [
-            { name: 'NetworkID', type: sql.NVarChar, value: `LCSD\\${username}` }
+            { name: 'NetworkID', type: sql.NconstChar, value: `LCSD\\${username}` }
         ];
 
         this.use(this.dbTypes.CASTLE).exec('Castle.spGetUser', params, (err, user) => {
@@ -604,7 +613,7 @@ class Helper {
 
     logUser(username, locationId) {
         const params = [
-            { name: 'NetworkID', type: sql.NVarChar, value: username },
+            { name: 'NetworkID', type: sql.NconstChar, value: username },
             { name: 'EntityRowId', type: sql.Int, value: locationId }
         ];
 

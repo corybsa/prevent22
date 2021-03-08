@@ -114,7 +114,12 @@ app.use(session({
     saveUninitialized: false
 }));
 
-// app.use(csrf());
+app.use(csrf());
+
+//*****************************************************
+// Static files
+//*****************************************************
+app.use(express.static(path.join(__dirname, 'dist/prevent22')));
 
 //*****************************************************
 // Setup passport sessions
@@ -123,20 +128,19 @@ app.use(passport.initialize());
 app.use(passport.session());
 
 //*****************************************************
-//API location
+// API Endpoints
 //*****************************************************
-app.use(express.static(path.join(__dirname, 'dist/prevent22')));
 app.use('/api', apiLimiter, api);
 
 //*****************************************************
 //send all other request to the Angular App
 //*****************************************************
 app.get('*', fileSystemLimiter, (req, res) => {
-    /* res.cookie('XSRF-TOKEN', req.csrfToken(), {
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
         path: '/',
         secure: true, // require HTTPS connection
         sameSite: true // blocks CORS requests on cookies
-    }); */
+    });
 
     res.sendFile(path.join(__dirname, 'dist/prevent22/index.html'));
 });
