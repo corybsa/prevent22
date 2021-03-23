@@ -11,7 +11,6 @@ const http = require('http');
 const sql = require('mssql');
 const helmet = require('helmet');
 const csrf = require('csurf');
-const crypto = require('crypto');
 
 const config = require('./server/config/config');
 const api = require('./server/routes/api.routes');
@@ -69,6 +68,7 @@ passport.deserializeUser((userId, done) => {
 //*****************************************************
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
@@ -94,7 +94,6 @@ app.use(helmet({
 const sessionTimeout = 86400; // 1800 seconds = 30 minutes, 5400seconds = 90 minutes, 86400 seconds = 24 hours
 
 app.use(session({
-    genid: (req) => uuid(),
     name: 'sessionId',
     cookie: {
         path: '/',
@@ -112,7 +111,14 @@ app.use(session({
     saveUninitialized: true
 }));
 
-app.use(csrf());
+app.use(csrf(), (req, res, next) => {
+    res.cookie('XSRF-TOKEN', req.csrfToken(), {
+        path: '/',
+        secure: false, // require HTTPS
+        sameSite: true // block CORS requests
+    });
+    next();
+});
 
 //*****************************************************
 // Static files
@@ -134,12 +140,6 @@ app.use('/api', apiLimiter, api);
 //send all other request to the Angular App
 //*****************************************************
 app.all('*', fileSystemLimiter, (req, res) => {
-    res.cookie('XSRF-TOKEN', req.csrfToken(), {
-        path: '/',
-        secure: false, // require HTTPS connection
-        sameSite: true // blocks CORS requests on cookies
-    });
-
     res.sendFile(path.join(__dirname, 'dist/prevent22/index.html'));
 });
 
