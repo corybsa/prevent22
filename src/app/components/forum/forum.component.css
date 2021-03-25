@@ -1,0 +1,8 @@
+div.board:hover {
+    cursor: pointer;
+    background: lightgrey !important;
+}
+
+div.board:nth-child(2n) {
+    background: hsl(0, 0%, 95%);
+}

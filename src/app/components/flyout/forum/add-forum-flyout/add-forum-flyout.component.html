@@ -1,0 +1,23 @@
+<form #addForm="ngForm" name="addForm" (ngSubmit)="submit(addForm)">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="forumName">Forum Name</label>
+            <input type="text" class="form-control" id="forumName" name="forumName" [(ngModel)]="forum.BoardName" required #forumName="ngModel" />
+            <div [hidden]="forumName.valid || forumName.pristine" class="form-error">Forum name is required.</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="forumDescription">Forum Description</label>
+            <input type="text" class="form-control" id="forumDescription" name="forumDescription" [(ngModel)]="forum.BoardDescription" required #forumDescription="ngModel" />
+            <div [hidden]="forumDescription.valid || forumDescription.pristine" class="form-error">Forum description is required.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit" [disabled]="!addForm.valid">Submit</button>
+        </div>
+    </div>
+</form>

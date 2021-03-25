@@ -1,0 +1,51 @@
+<div class="px-4 p-4">
+	<div class="container">
+        <ng-container *ngIf="user">
+            <button
+                *ngIf="user.hasRole([systemRoles.Admin, systemRoles.Moderator])"
+                class="btn btn-p22"
+                (click)="createForum()"
+            >
+                Create new forum
+            </button>
+        </ng-container>
+        <p-table [value]="forums">
+            <ng-template pTemplate="header">
+                <tr>
+                    <th>Forum</th>
+                    <th>Threads</th>
+                    <th>Posts</th>
+                    <th>Last Post</th>
+                    <ng-container *ngIf="user">
+                        <th>&nbsp;</th>
+                    </ng-container>
+                </tr>
+            </ng-template>
+            <ng-template pTemplate="body" let-forum>
+                <tr>
+                    <td>{{ forum.BoardName }}</td>
+                    <td>{{ forum.ThreadCount }}</td>
+                    <td>{{ forum.PostCount }}</td>
+                    <td>
+                        <ng-container *ngIf="forum.LastPostDate !== null">
+                            {{ getPostDate(forum) }}
+                            <br>
+                            by {{ forum.LastPostAuthor }}
+                        </ng-container>
+                        <ng-container *ngIf="forum.LastPostDate === null">
+                            No Posts
+                        </ng-container>
+                    </td>
+                    <ng-container *ngIf="user">
+                        <td>
+                            <ng-container *ngIf="user.hasRole([systemRoles.Admin, systemRoles.Moderator])">
+                                <button class="btn btn-info mr-2"><i class="fa fa-edit"></i></button>
+                                <button class="btn btn-danger" (click)="deleteForum(forum.BoardId)"><i class="fa fa-times"></i></button>
+                            </ng-container>
+                        </td>
+                    </ng-container>
+                </tr>
+            </ng-template>
+        </p-table>
+	</div>
+</div>

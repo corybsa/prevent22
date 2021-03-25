@@ -2,16 +2,9 @@ const sql = require('mssql');
 const moment = require('moment');
 const config = require('../server/config/config');
 // const multer = require('multer');
-const crypto = require('crypto');
+// const crypto = require('crypto');
 const bcrypt = require('bcrypt');
 // const fs = require('fs');
-
-class ApiError {
-    constructor(name, message) {
-        this.name = name;
-        this.message = message;
-    }
-}
 
 class Helper {
     constructor() {
@@ -123,7 +116,7 @@ class Helper {
                     case sql.Int:
                         break;
                     case sql.DateTime:
-                    case sql.NconstChar:
+                    case sql.NVarChar:
                         paramsLog[i] = `\'${paramsLog[i]}\'`;
                         break;
                 }
@@ -162,7 +155,7 @@ class Helper {
                     case sql.Int:
                         break;
                     case sql.DateTime:
-                    case sql.NconstChar:
+                    case sql.NVarChar:
                         paramsLog[i] = `\'${paramsLog[i]}\'`;
                         break;
                 }
@@ -234,7 +227,7 @@ class Helper {
      */
     getParamType(param) {
         if (!param) {
-            return sql.NconstChar;
+            return sql.NVarChar;
         }
 
         if (/^true$|^false$/i.test(param)) {
@@ -249,41 +242,32 @@ class Helper {
             return sql.DateTime;
         }
 
-        return sql.NconstChar;
+        return sql.NVarChar;
     }
 
     /**
      * Get all parameters formatted to send to SQL.
      *
      * @param {*} req - The request from the client.
-     * @param {boolean} personRowId - Whether or not to provide the PersonRowId.
-     * @param {boolean} entityRowId - Whether or not to provide the EntityRowId.
-     * @param {boolean} userRoleRowId - Whether or not to provide the UserRoleRowId.
+     * @param {boolean} needsToBeLoggedIn - Check if the user needs to be logged in
+     * @param {number} statementType - Which StatementType to use.
      * @returns {*} The formatted parameters or null if there are no parameters.
      */
-    getParameters(req, personRowId = false, entityRowId = false, userRoleRowId = false) {
+    getParameters(req, needsToBeLoggedIn, statementType) {
         const params = [];
 
-        if (!req.session.passport) {
+        if (needsToBeLoggedIn && !req.session.passport) {
             // if we don't clear the parameters between calls they will just keep appending to this array.
             this.params = [];
 
-            throw new ApiError('test name', { name: 'session', message: 'Session has expired. Please refresh the page.' });
+            throw new Error('Not logged in.');
         }
 
-        const user = JSON.parse(req.session.passport.user);
-
-        if (personRowId) {
-            params.push({ name: 'PersonRowId', type: sql.Int, value: user.PersonRowId || null });
+        if (!statementType) {
+            throw new Error('StatementType not found');
         }
 
-        if (entityRowId) {
-            params.push({ name: 'EntityRowId', type: sql.Int, value: user.EntityRowId });
-        }
-
-        if (userRoleRowId) {
-            params.push({ name: 'UserRoleRowId', type: sql.Int, value: user.UserRoleRowId });
-        }
+        params.push({ name: 'StatementType', type: sql.Int, value: statementType });
 
         for (const prop of this.params) {
             params.push({ name: prop.name.trim(), type: prop.dataType, value: prop.value });
@@ -379,7 +363,7 @@ class Helper {
                 return false;
             case sql.DateTime:
                 return null;
-            case sql.NconstChar:
+            case sql.NVarChar:
                 return '';
             default:
                 return '';
@@ -426,7 +410,7 @@ class Helper {
 
         params[param] = params[param] !== null ? moment(Date.parse(params[param])).format(this.DATE_FORMAT) : null;
 
-        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
+        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
     }
 
     /**
@@ -449,7 +433,7 @@ class Helper {
 
         params[param] = params[param] !== null ? moment(Date.parse(params[param])).format(this.DATETIME_FORMAT) : null;
 
-        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
+        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
     }
 
     /**
@@ -493,7 +477,7 @@ class Helper {
      * @param {string[]} [validValues] - The valid that are allowed to be passes.
      */
     checkString(req, param, isRequired = true, validValues) {
-        const params = this.getParameter(req, param, isRequired, sql.NconstChar);
+        const params = this.getParameter(req, param, isRequired, sql.NVarChar);
 
         if (validValues) {
             let valid = false;
@@ -511,141 +495,7 @@ class Helper {
             }
         }
 
-        this.params.push({ name: param, dataType: sql.NconstChar, value: params[param] });
-    }
-
-    /**
-     * Authenticate user against active directory.
-     *
-     * @param {string} username - The username of the user.
-     * @param {string} password - The password of the user.
-     * @param {Function} next - Function to execute once user is found.
-     */
-    authenticateUser(username, password, next) {
-        if (this.ad) {
-            this.ad.user(username).get()
-                .then(user => {
-                    if (Object.keys(user).length > 0) {
-                        this.ad.user(username).authenticate(password)
-                            .then(authenticated => {
-                                next(null, authenticated);
-                            })
-                            .catch(err => next(err, null));
-                    } else {
-                        next(`${username} doesn't exist`, null);
-                    }
-                })
-                .catch(err => next(err, null));
-        } else {
-            next('Could not connect to active directory.', null);
-        }
-    }
-
-    /**
-     * Logs the user in.
-     *
-     * @param {string} username - The username of the user.
-     * @param {string} password - The password of the user.
-     * @param {Function} next - Function to execute once user is found.
-     */
-    login(username, password, next) {
-        this.authenticateUser(username, password, (err, result) => {
-            this.loginSuccess(username, password, err, result, next);
-        });
-    }
-
-    /**
-     * Method to run after authenticating the user. This function is recursive until it gets either a success message or
-     * an error other than ECONNREFUSED.
-     *
-     * @param {string} username - The username of the user.
-     * @param {string} password - The password of the user.
-     * @param {*} err - The error object.
-     * @param {boolean} result - The result of the authentication.
-     * @param {Function} next - The function to execute after we try to get the user from the database.
-     */
-    loginSuccess(username, password, err, result, next) {
-        if (result) {
-            username = username.replace(/(@leeschools.net)|(@students.leeschools.net)/gi, '');
-
-            if (this.ad) {
-                this.ad.user(username)
-                    .get({
-                        fields: [
-                            'dn',
-                            'sAMAccountName',
-                            'mail',
-                            'sn',
-                            'givenName',
-                            'displayName'
-                        ]
-                    })
-                    .then((u) => {
-                        this.getDatabaseUser(username, next);
-                    })
-                    .catch(e => next(e, null));
-            } else {
-                next('Could not connect to active directory.', null);
-            }
-        } else {
-            this.logMessage(err, this.RED_TEXT);
-            if (err && err.code === 'ECONNREFUSED') {
-                // keep trying until there is a real error.
-                this.login(username, password, next);
-            } else {
-                next({ message: 'Wrong username/password combination.' }, null);
-            }
-        }
-    }
-
-    getDatabaseUser(username, next) {
-        const params = [
-            { name: 'NetworkID', type: sql.NconstChar, value: `LCSD\\${username}` }
-        ];
-
-        this.use(this.dbTypes.CASTLE).exec('Castle.spGetUser', params, (err, user) => {
-            if (!err) {
-                this.logUser(user.recordset[0].NetworkID, user.recordset[0].EntityRowId);
-                next(null, user);
-            } else {
-                next(err, null);
-            }
-        });
-    }
-
-    logUser(username, locationId) {
-        const params = [
-            { name: 'NetworkID', type: sql.NconstChar, value: username },
-            { name: 'EntityRowId', type: sql.Int, value: locationId }
-        ];
-
-        this.use(this.dbTypes.CASTLE).exec('Castle.spAddUserLogin', params, (err, data) => {
-            if (err) {
-                this.logError('Other', new Date(), err.message, 'Castle.spAddUserLogin', params);
-            }
-        });
-    }
-
-    /**
-     * Impersonate any user... this could get ugly.
-     *
-     * @param {number} personRowId - The user requesting impersonation.
-     * @param {number} impersonatedPersonRowId - The user to impersonate.
-     * @param {Function} next - Function to execute once user is found.
-     */
-    impersonate(personRowId, impersonatedPersonRowId, next) {
-        const params = [
-            { name: 'PersonRowId', type: sql.Int, value: personRowId },
-            { name: 'ImpersonatedPersonRowId', type: sql.Int, value: impersonatedPersonRowId }
-        ];
-
-        this.use(this.dbTypes.CASTLE).exec('Castle.spUserImpersonate', params, (err, user) => {
-            if (!err) {
-                next(null, user);
-            } else {
-                next(err, null);
-            }
-        });
+        this.params.push({ name: param, dataType: sql.NVarChar, value: params[param] });
     }
 
     /**
@@ -725,26 +575,27 @@ class Helper {
      * @param {number|number[]} roles - The roles to check
      * @returns {*} - The usable JS object.
      */
-    hasRole(req, res, roles) {
-        const user = JSON.parse(req.session.passport.user);
+    hasRole(req, roles) {
+        const user = req.session.passport.user;
 
-        if (+user.UserRoleRowId === this.roles.CASTLE_ADMIN) {
+        if (+user.RoleId === this.roles.Admin) {
             return true;
         }
 
         if (roles instanceof Array) {
             for (let i = 0; i < roles.length; i++) {
-                if (roles[i] === +user.UserRoleRowId) {
+                console.log(roles[i], user.RoleId);
+                if (roles[i] === +user.RoleId) {
                     return true;
                 }
             }
         } else if (!isNaN(+roles)) {
-            if (roles === +user.UserRoleRowId) {
+            if (roles === +user.RoleId) {
                 return true;
             }
         }
 
-        return res.status(403).json({ message: 'Nuh uh uh. You didn\'t say the magic word.' });
+        return false;
     }
 }
 

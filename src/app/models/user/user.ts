@@ -45,15 +45,22 @@ export class User {
         );
     }
 
-    public hasRole(role: SystemRoles): boolean {
-        if (this.RoleId === SystemRoles.Admin) {
+    public hasRole(roles: SystemRoles | SystemRoles[]): boolean {
+        // always grant access to admins
+        if (parseInt(this.RoleId.toString(), 10) === SystemRoles.Admin) {
             return true;
         }
 
-        if (this.RoleId === role) {
-            return true;
-        }
+        if (roles instanceof Array) {
+            for (const role of roles) {
+                if (parseInt(this.RoleId.toString(), 10) === role) {
+                    return true;
+                }
+            }
 
-        return false;
+            return false;
+        } else {
+            return parseInt(this.RoleId.toString(), 10) === roles;
+        }
     }
 }

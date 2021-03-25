@@ -1,8 +1,11 @@
+<p-toast key="app-toast" position="top-right" baseZIndex="100000"></p-toast>
 <div class="main">
   <app-nav></app-nav>
   
   <div class="content">
-    <router-outlet></router-outlet>
+    <router-outlet>
+      <app-flyout></app-flyout>
+    </router-outlet>
   </div>
 
   <div class="container-fluid socials">

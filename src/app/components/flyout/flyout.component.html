@@ -1,0 +1,19 @@
+<div class="flyout-header">
+  <span *ngIf="!showBack" class="flyout-back" (click)="navigateBack()">
+    <i class="pi pi-angle-left"></i>
+  </span>
+
+  <span class="flyout-title">{{ title }}</span>
+  
+  <span class="flyout-close" (click)="closeFlyout()">
+    <i class="pi pi-times"></i>
+  </span>
+</div>
+
+<div class="flyout-body">
+  <div class="card">
+    <div class="card-body">
+      <app-flyout-forum [content]="content"></app-flyout-forum>
+    </div>
+  </div>
+</div>

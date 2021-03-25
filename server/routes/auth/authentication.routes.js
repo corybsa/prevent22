@@ -25,7 +25,7 @@ router.post('/check', (req, res, next) => {
         } else {
             const params = [
                 { name: 'StatementType', type: sql.Int, value: 1 },
-                { name: 'UserId', type: sql.Int, value: sessionUser }
+                { name: 'UserId', type: sql.Int, value: sessionUser.UserId }
             ];
 
             helper.exec('sp_Users', params, (err, user) => {

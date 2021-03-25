@@ -11,6 +11,7 @@ const http = require('http');
 const sql = require('mssql');
 const helmet = require('helmet');
 const csrf = require('csurf');
+const cookieParser = require('cookie-parser');
 
 const config = require('./server/config/config');
 const api = require('./server/routes/api.routes');
@@ -49,13 +50,13 @@ passport.use(new LocalStrategy(
 ));
 
 passport.serializeUser((user, done) => {
-    done(null, user.UserId);
+    done(null, { UserId: user.UserId, RoleId: user.RoleId });
 });
 
-passport.deserializeUser((userId, done) => {
+passport.deserializeUser((user, done) => {
     const params = [
         { name: 'StatementType', type: sql.Int, value: 1 },
-        { name: 'UserId', type: sql.NVarChar, value: userId }
+        { name: 'UserId', type: sql.NVarChar, value: user.UserId }
     ];
 
     helper.exec('sp_Users', params, (err, user) => {
@@ -68,6 +69,7 @@ passport.deserializeUser((userId, done) => {
 //*****************************************************
 app.use(bodyParser.json());
 app.use(bodyParser.urlencoded({ extended: false }));
+app.use(cookieParser());
 
 app.use(helmet({
     contentSecurityPolicy: {
@@ -140,7 +142,7 @@ app.use('/api', apiLimiter, api);
 //send all other request to the Angular App
 //*****************************************************
 app.all('*', fileSystemLimiter, (req, res) => {
-    res.sendFile(path.join(__dirname, 'dist/prevent22/index.html'));
+   res.sendFile(path.join(__dirname, 'dist/prevent22/index.html'));
 });
 
 //Set port

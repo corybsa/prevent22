@@ -7,7 +7,7 @@ import { User } from "src/app/models/user/user";
 import { setUser } from "src/app/state/user/user.actions";
 import { AuthService } from "./auth.service";
 
-@Injectable()
+@Injectable({ providedIn: 'root' })
 export class AuthGuard implements CanActivate {
     constructor(
         private authService: AuthService,

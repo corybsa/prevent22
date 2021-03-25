@@ -16,6 +16,9 @@ import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './services/auth/auth.guard';
 import { RegisterComponent } from './components/register/register.component';
 import { PasswordValidatorDirective } from './directives/password-validator.directive';
+import { FlyoutModule } from './components/flyout/flyout.module';
+import { ToastModule } from 'primeng/toast';
+import { MessageService } from 'primeng/api';
 
 @NgModule({
   declarations: [
@@ -23,7 +26,7 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
     NavComponent,
     LoginComponent,
     RegisterComponent,
-    PasswordValidatorDirective,
+    PasswordValidatorDirective
   ],
   imports: [
     BrowserModule,
@@ -34,11 +37,14 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
       metaReducers
     }),
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
-    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production })
+    ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
+    FlyoutModule,
+    ToastModule
   ],
   providers: [
     AuthGuard,
-    AuthService
+    AuthService,
+    MessageService
   ],
   bootstrap: [AppComponent]
 })

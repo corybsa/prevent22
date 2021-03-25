@@ -24,7 +24,7 @@ export class AuthService {
 
     check(): Observable<User> {
         const url = '/api/auth/check';
-        let user;
+        let user: User;
         this.store.pipe(select(selectUser)).subscribe(res => user = res);
 
         if(user) {
@@ -55,23 +55,5 @@ export class AuthService {
         };
 
         return this.http.post<User>(url, options);
-    }
-
-    getParams(data: any): { params: HttpParams } {
-        if (typeof data !== 'object') {
-            throw new Error('Data must be an object');
-        }
-
-        let params = new HttpParams();
-
-        for (const prop in data) {
-            if (data.hasOwnProperty(prop)) {
-                if (data[prop] !== undefined && data[prop] !== null) {
-                    params = params.set(prop, data[prop].toString());
-                }
-            }
-        }
-
-        return { params };
     }
 }
