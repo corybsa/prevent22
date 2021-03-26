@@ -3,7 +3,7 @@
         <div class="col-12 form-group">
             <label for="forumName">Forum Name</label>
             <input type="text" class="form-control" id="forumName" name="forumName" [(ngModel)]="forum.BoardName" required #forumName="ngModel" />
-            <div [hidden]="forumName.valid || forumName.pristine" class="form-error">Forum name is required.</div>
+            <div [hidden]="forumName.valid || forumName.pristine" class="form-error">A name must be provided.</div>
         </div>
     </div>
     
@@ -11,7 +11,7 @@
         <div class="col-12 form-group">
             <label for="forumDescription">Forum Description</label>
             <input type="text" class="form-control" id="forumDescription" name="forumDescription" [(ngModel)]="forum.BoardDescription" required #forumDescription="ngModel" />
-            <div [hidden]="forumDescription.valid || forumDescription.pristine" class="form-error">Forum description is required.</div>
+            <div [hidden]="forumDescription.valid || forumDescription.pristine" class="form-error">A description must be provided.</div>
         </div>
     </div>
 

@@ -7,7 +7,7 @@ export class Helper {
      * @param object T
      * @returns {any} a copy of <code>object</code>.
      */
-    static copy(object): any {
+    static copy(object: any): any {
       if(object instanceof Array) {
         const target = [];
   
@@ -35,7 +35,7 @@ export class Helper {
      * @param target any: The object to compare.
      * @returns {any} <code>true</code> if they are equal, <code>false</code> if they are not equal.
      */
-    static compare(src, target) {
+    static compare(src: any, target: any) {
       return _.isEqual(src, target);
     }
   

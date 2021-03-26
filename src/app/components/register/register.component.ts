@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
+import { MessageService } from 'primeng/api';
 import { tap } from 'rxjs/operators';
 import { AuthService } from 'src/app/services/auth/auth.service';
 import { setUser } from 'src/app/state/user/user.actions';
@@ -26,7 +27,8 @@ export class RegisterComponent implements OnInit {
   constructor(
     private authService: AuthService,
     private store: Store,
-    private router: Router
+    private router: Router,
+    private toast: MessageService
   ) { }
 
   ngOnInit(): void {
@@ -53,12 +55,11 @@ export class RegisterComponent implements OnInit {
     .pipe(
       tap(user => this.store.dispatch(setUser({ user })))
     )
-    .subscribe(() => {
-      this.router.navigate(['/']);
-    });
-  }
-
-  print(obj) {
-    return console.log(obj);
+    .subscribe(
+      () => {
+        this.router.navigate(['/']);
+      },
+      err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+    );
   }
 }

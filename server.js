@@ -15,6 +15,7 @@ const cookieParser = require('cookie-parser');
 
 const config = require('./server/config/config');
 const api = require('./server/routes/api.routes');
+const errorHandler = require('./server/error-handler');
 const Helper = require('./server/helper');
 const helper = new Helper();
 
@@ -60,7 +61,13 @@ passport.deserializeUser((user, done) => {
     ];
 
     helper.exec('sp_Users', params, (err, user) => {
-        done(err, helper.processResults(user.recordset[0]));
+        let u = null;
+
+        if(user) {
+            u = helper.processResults(user.recordset[0]);
+        }
+        
+        done(err, u);
     });
 });
 
@@ -76,7 +83,7 @@ app.use(helmet({
         directives: {
             "connect-src": ["'self'"],
             "default-src": ["'self'"],
-            "font-src": ["'self'", "https://stackpath.bootstrapcdn.com"],
+            "font-src": ["'self'", "'data:'", "https://stackpath.bootstrapcdn.com"],
             "img-src": ["'self'", "data:"],
             "frame-src": ["'self'"],
             "frame-ancestors": ["'self'"],
@@ -137,6 +144,7 @@ app.use(passport.session());
 // API Endpoints
 //*****************************************************
 app.use('/api', apiLimiter, api);
+app.use(errorHandler);
 
 //*****************************************************
 //send all other request to the Angular App

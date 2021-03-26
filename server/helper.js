@@ -64,26 +64,15 @@ class Helper {
                 // execute stored procedure.
                 return request.execute(procedure, (err, result) => {
                     if (err) {
-                        const timestamp = new Date();
-                        let type;
-
-                        if (err.code === 'ETIMEOUT') {
-                            type = 'Timeout';
-                        } else if (err.message.match('too many') !== null) {
-                            type = 'Too many args';
-                        } else {
-                            type = 'Other';
-                        }
-
                         this.logRequest(procedure, params, true);
-                        this.logError(type, timestamp, err.message, procedure, params);
+                        this.logError(procedure, params, err.originalError.info.message);
                     }
 
                     // close connection.
                     pool.close();
 
                     // return err and result info to client.
-                    next(err, result);
+                    next(err ? err.originalError.info : null, result);
                 });
             } catch (e) {
                 console.log(e);
@@ -142,7 +131,7 @@ class Helper {
         }
     }
 
-    logError(type, timestamp, message, procedure, params) {
+    logError(procedure, params, message) {
         let exec;
 
         if (params) {
@@ -161,10 +150,12 @@ class Helper {
                 }
             }
 
-            exec = `EXEC ${procedure} ${paramsLog.join(', ')}`;
+            exec = `${message}\nEXEC ${procedure} ${paramsLog.join(', ')}`;
         } else {
-            exec = `EXEC ${procedure}`;
+            exec = `${message}\nEXEC ${procedure}`;
         }
+
+        this.logMessage(exec, this.RED_TEXT);
     }
 
     /**

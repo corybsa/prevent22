@@ -1,6 +1,8 @@
 import { Injectable } from "@angular/core";
 import { ActivatedRouteSnapshot, CanActivate, Router, RouterStateSnapshot } from "@angular/router";
 import { Store } from "@ngrx/store";
+import { MessageService } from "primeng/api";
+import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
 import { SystemRoles } from "src/app/models/user/system-roles";
 import { User } from "src/app/models/user/user";
@@ -12,7 +14,8 @@ export class AuthGuard implements CanActivate {
     constructor(
         private authService: AuthService,
         private router: Router,
-        private store: Store
+        private store: Store,
+        private toast: MessageService
     ) { }
 
     canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Promise<boolean> {
@@ -47,6 +50,12 @@ export class AuthGuard implements CanActivate {
                     }
 
                     return true;
+                }),
+                catchError(err => {
+                    console.log(err);
+                    this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message, closable: true, sticky: true });
+                    this.router.navigate(['/login']);
+                    return new Observable<boolean>(o => o.complete());
                 })
             ).toPromise();
     }

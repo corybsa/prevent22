@@ -13,8 +13,9 @@ import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.a
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { selectAllForums } from 'src/app/state/forums/forums.selectors';
-import { first } from 'rxjs/operators';
+import { catchError, first } from 'rxjs/operators';
 import { setAllForums } from 'src/app/state/forums/forums.actions';
+import { MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-forum',
@@ -28,7 +29,8 @@ export class ForumComponent implements OnInit {
 
   constructor(
     private forumService: ForumsService,
-    private store: Store
+    private store: Store,
+    private toast: MessageService
   ) {
     combineLatest([
       this.store.select(selectUser),
@@ -38,7 +40,13 @@ export class ForumComponent implements OnInit {
       this.forums = forums;
     });
 
-    this.forumService.getAll().pipe(first()).subscribe(forums => this.forums = forums);
+    this.forumService
+      .getAll()
+      .pipe(first())
+      .subscribe(
+        forums => this.forums = forums,
+        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+      );
   }
 
   ngOnInit(): void {
@@ -55,8 +63,14 @@ export class ForumComponent implements OnInit {
   }
 
   deleteForum(forumId: number) {
-    this.forumService.delete(forumId).pipe(first()).subscribe(forums => {
-      this.store.dispatch(setAllForums({ forums }));
-    });
+    this.forumService
+      .delete(forumId)
+      .pipe(first())
+      .subscribe(
+        forums => {
+          this.store.dispatch(setAllForums({ forums }));
+        },
+        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+      );
   }
 }
