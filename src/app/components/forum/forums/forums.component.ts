@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { combineLatest, Observable } from 'rxjs';
+import { combineLatest } from 'rxjs';
 import { Forum } from 'src/app/models/forum/forum';
 import { ForumsService } from 'src/app/services/forums/forums.service';
 import { Formatter } from 'src/app/models/formatter';

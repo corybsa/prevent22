@@ -1,4 +1,3 @@
-const sql = require('mssql');
 const Helper = require('../../helper');
 const StatementType = require('../../statement-type');
 const helper = new Helper();

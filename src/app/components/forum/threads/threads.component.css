@@ -1,0 +1,30 @@
+tr.thread > div {
+    display: contents;
+}
+
+tr.thread > div td {
+    padding: 16px;
+}
+
+tr.thread:hover {
+    cursor: pointer;
+    background: lightgrey !important;
+}
+
+tr.thread:nth-child(2n) {
+    background: hsl(0, 0%, 95%);
+}
+
+tr.thread.closed {
+    color: hsl(0, 0%, 70%);
+    cursor: default;
+    background: initial !important;
+}
+
+tr.thread.closed .thread-info {
+    pointer-events: none;
+}
+
+tr.thread.closed .fa-lock {
+    display: inline !important;
+}

@@ -8,6 +8,7 @@ import { FormsModule } from '@angular/forms';
 import { ForumsService } from 'src/app/services/forums/forums.service';
 import { ThreadsComponent } from './threads/threads.component';
 import { ForumsComponent } from './forums/forums.component';
+import { ThreadsService } from 'src/app/services/forums/threads.service';
 
 
 @NgModule({
@@ -23,7 +24,8 @@ import { ForumsComponent } from './forums/forums.component';
     TableModule
   ],
   providers: [
-    ForumsService
+    ForumsService,
+    ThreadsService
   ]
 })
 export class ForumModule { }
