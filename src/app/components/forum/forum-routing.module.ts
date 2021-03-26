@@ -1,11 +1,17 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { ForumComponent } from './forum.component';
+import { ForumsComponent } from './forums/forums.component';
+import { ThreadsComponent } from './threads/threads.component';
 
 const routes: Routes = [
   {
     path: '',
-    component: ForumComponent
+    component: ForumComponent,
+    children: [
+      { path: '', component: ForumsComponent },
+      { path: ':forumId/threads', component: ThreadsComponent }
+    ]
   }
 ];
 

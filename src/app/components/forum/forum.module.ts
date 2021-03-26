@@ -6,11 +6,15 @@ import { ForumRoutingModule } from './forum-routing.module';
 import { ForumComponent } from './forum.component';
 import { FormsModule } from '@angular/forms';
 import { ForumsService } from 'src/app/services/forums/forums.service';
+import { ThreadsComponent } from './threads/threads.component';
+import { ForumsComponent } from './forums/forums.component';
 
 
 @NgModule({
   declarations: [
-    ForumComponent
+    ForumComponent,
+    ThreadsComponent,
+    ForumsComponent
   ],
   imports: [
     CommonModule,

@@ -83,7 +83,7 @@ app.use(helmet({
         directives: {
             "connect-src": ["'self'"],
             "default-src": ["'self'"],
-            "font-src": ["'self'", "'data:'", "https://stackpath.bootstrapcdn.com"],
+            "font-src": ["'self'", "data:", "https://stackpath.bootstrapcdn.com"],
             "img-src": ["'self'", "data:"],
             "frame-src": ["'self'"],
             "frame-ancestors": ["'self'"],

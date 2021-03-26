@@ -8,7 +8,7 @@ const routes: Routes = [
   { path: 'home', loadChildren: () => import('./components/home/home.module').then(m => m.HomeModule), canActivate: [AuthGuard] },
   { path: 'about-us', loadChildren: () => import('./components/about-us/about-us.module').then(m => m.AboutUsModule), canActivate: [AuthGuard] },
   { path: 'resources', loadChildren: () => import('./components/resources/resources.module').then(m => m.ResourcesModule), canActivate: [AuthGuard] },
-  { path: 'forum', loadChildren: () => import('./components/forum/forum.module').then(m => m.ForumModule), canActivate: [AuthGuard] },
+  { path: 'forums', loadChildren: () => import('./components/forum/forum.module').then(m => m.ForumModule), canActivate: [AuthGuard] },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }

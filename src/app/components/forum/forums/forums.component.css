@@ -1,0 +1,16 @@
+tr.forum > div {
+    display: contents;
+}
+
+tr.forum > div td {
+    padding: 16px;
+}
+
+tr.forum:hover {
+    cursor: pointer;
+    background: lightgrey !important;
+}
+
+tr.forum:nth-child(2n) {
+    background: hsl(0, 0%, 95%);
+}

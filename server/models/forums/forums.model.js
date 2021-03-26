@@ -30,6 +30,22 @@ module.exports.create = (req, next) => {
     }
 };
 
+module.exports.update = (req, next) => {
+    try {
+        let params;
+
+        helper.checkString(req, 'BoardId', helper.REQUIRED);
+        helper.checkString(req, 'BoardName', helper.REQUIRED);
+        helper.checkString(req, 'BoardDescription', helper.REQUIRED);
+
+        params = helper.getParameters(req, true, StatementType.Update);
+
+        helper.exec('sp_Boards', params, next);
+    } catch(e) {
+        next(e.message, null);
+    }
+};
+
 module.exports.delete = (req, next) => {
     try {
         let params;

@@ -33,6 +33,25 @@ router.post('/', (req, res) => {
     });
 });
 
+router.put('/', (req, res) => {
+    if(!req.isAuthenticated()) {
+        res.status(440).json({ message: 'User not logged in.' });
+        return;
+    }
+
+    if(!helper.hasRole(req, [helper.roles.Admin, helper.roles.Moderator])) {
+        return res.status(403).json({ message: 'Not authorized to perform this action.' });
+    }
+
+    Forums.update(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
 router.delete('/', (req, res) => {
     if(!req.isAuthenticated()) {
         res.status(440).json({ message: 'User not logged in.' });

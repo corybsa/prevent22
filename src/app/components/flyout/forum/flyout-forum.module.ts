@@ -5,11 +5,13 @@ import { FormsModule } from '@angular/forms';
 import { FlyoutForumComponent } from './flyout-forum.component';
 import { ForumsService } from 'src/app/services/forums/forums.service';
 import { ToastModule } from 'primeng/toast';
+import { EditForumFlyoutComponent } from './edit-forum-flyout/edit-forum-flyout.component';
 
 @NgModule({
   declarations: [
     AddForumFlyoutComponent,
-    FlyoutForumComponent
+    FlyoutForumComponent,
+    EditForumFlyoutComponent
   ],
   imports: [
     CommonModule,

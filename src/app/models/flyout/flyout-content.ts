@@ -1,5 +1,6 @@
 export class FlyoutContent {
     static Forums = {
-        Add: 'create forum'
+        Add: 'create forum',
+        Edit: 'edit forum'
     };
 }

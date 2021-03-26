@@ -17,19 +17,30 @@ export class ForumsService {
         return this.http.get<Forum[]>(url);
     }
 
-    create(BoardName: string, BoardDescription: string): Observable<Forum[]> {
+    create(ForumName: string, ForumDescription: string): Observable<Forum[]> {
         const url = '/api/forum';
         const data = {
-            BoardName,
-            BoardDescription
+            BoardName: ForumName,
+            BoardDescription: ForumDescription
         };
 
         return this.http.post<Forum[]>(url, data);
     }
 
-    delete(BoardId: number): Observable<Forum[]> {
+    update(ForumId: number, ForumName: string, ForumDescription: string): Observable<Forum[]> {
         const url = '/api/forum';
-        const data = this.helper.getParams({ BoardId });
+        const data = {
+            BoardId: ForumId,
+            BoardName: ForumName,
+            BoardDescription: ForumDescription
+        };
+
+        return this.http.put<Forum[]>(url, data);
+    }
+
+    delete(ForumId: number): Observable<Forum[]> {
+        const url = '/api/forum';
+        const data = this.helper.getParams({ BoardId: ForumId });
 
         return this.http.delete<Forum[]>(url, data);
     }
