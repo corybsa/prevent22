@@ -8,7 +8,7 @@ export interface ForumState {
     current: Forum;
 }
 
-export const initialState: Readonly<ForumState> = {
+export const initialState: ForumState = {
     all: [],
     current: null
 };

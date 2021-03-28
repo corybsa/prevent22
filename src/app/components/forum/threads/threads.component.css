@@ -6,7 +6,7 @@ tr.thread > div td {
     padding: 16px;
 }
 
-tr.thread:hover {
+tr.thread:hover:not(.closed) {
     cursor: pointer;
     background: lightgrey !important;
 }
@@ -18,7 +18,6 @@ tr.thread:nth-child(2n) {
 tr.thread.closed {
     color: hsl(0, 0%, 70%);
     cursor: default;
-    background: initial !important;
 }
 
 tr.thread.closed .thread-info {

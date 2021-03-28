@@ -23,7 +23,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-forum>
                 <tr class="forum">
-                    <div (click)="openThreads(forum.BoardId)">
+                    <div (click)="openThreads(forum)">
                         <td>{{ forum.BoardName }}</td>
                         <td>{{ forum.ThreadCount }}</td>
                         <td>{{ forum.PostCount }}</td>

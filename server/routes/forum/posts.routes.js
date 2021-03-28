@@ -2,10 +2,10 @@ const express = require('express');
 const router = express.Router();
 const Helper = require('../../helper');
 const helper = new Helper();
-const Threads = require('../../models/forums/threads.model');
+const Posts = require('../../models/forums/posts.model');
 
 router.get('/', (req, res) => {
-    Threads.get(req, (err, data) => {
+    Posts.get(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {
@@ -19,8 +19,8 @@ router.post('/', (req, res) => {
         res.status(440).json({ message: 'User not logged in.' });
         return;
     }
-    
-    Threads.create(req, (err, data) => {
+
+    Posts.create(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset[0]));
         } else {
@@ -35,7 +35,7 @@ router.put('/', (req, res) => {
         return;
     }
 
-    Threads.update(req, (err, data) => {
+    Posts.update(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {
@@ -54,7 +54,7 @@ router.delete('/', (req, res) => {
         return res.status(403).json({ message: 'Not authorized to perform this action.' });
     }
 
-    Threads.delete(req, (err, data) => {
+    Posts.delete(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {

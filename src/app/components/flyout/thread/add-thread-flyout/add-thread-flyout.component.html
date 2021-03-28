@@ -1,0 +1,23 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="threadName">Title</label>
+            <input type="text" class="form-control" id="threadName" name="threadName" [(ngModel)]="thread.ThreadName" required #threadName="ngModel" />
+            <div [hidden]="threadName.valid || threadName.pristine" class="form-error">A name must be provided.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="postMessage">Message</label>
+            <p-editor id="postMessage" name="postMessage" [(ngModel)]="post.Message" required #postMessage="ngModel" [style]="{'height':'320px'}"></p-editor>
+            <div [hidden]="postMessage.valid || postMessage.pristine" class="form-error">A message is required to submit a post.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+    </div>
+</form>

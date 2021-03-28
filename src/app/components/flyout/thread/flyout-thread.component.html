@@ -1,0 +1,9 @@
+<ng-container [ngSwitch]="content">
+    <ng-container *ngSwitchCase="flyoutContent.Threads.Add">
+        <app-add-thread-flyout></app-add-thread-flyout>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="flyoutContent.Threads.Edit">
+        <app-edit-thread-flyout></app-edit-thread-flyout>
+    </ng-container>
+</ng-container>

@@ -4,10 +4,20 @@ const Helper = require('../../helper');
 const helper = new Helper();
 const Forums = require('../../models/forums/forums.model');
 
-router.get('/', (req, res) => {
+router.get('/all', (req, res) => {
     Forums.getAll(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
+router.get('/', (req, res) => {
+    Forums.get(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset[0]));
         } else {
             res.status(400).json(err);
         }

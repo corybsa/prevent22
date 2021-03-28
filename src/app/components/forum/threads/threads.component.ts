@@ -1,14 +1,20 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { combineLatest } from 'rxjs';
 import { first } from 'rxjs/operators';
+import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
+import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Formatter } from 'src/app/models/formatter';
 import { Thread } from 'src/app/models/thread/thread';
 import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
+import { ForumsService } from 'src/app/services/forums/forums.service';
 import { ThreadsService } from 'src/app/services/forums/threads.service';
+import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
+import { setForum } from 'src/app/state/forums/forums.actions';
+import { setThread } from 'src/app/state/threads/threads.actions';
 import { selectThreads } from 'src/app/state/threads/threads.selectors';
 import { selectUser } from 'src/app/state/user/user.selectors';
 
@@ -25,11 +31,18 @@ export class ThreadsComponent implements OnInit {
 
   constructor(
     private service: ThreadsService,
+    private forumService: ForumsService,
     private route: ActivatedRoute,
     private store: Store,
-    private toast: MessageService
+    private toast: MessageService,
+    private router: Router
   ) {
     this.forumId = +this.route.snapshot.paramMap.get('forumId');
+
+    this.forumService.get(this.forumId).subscribe(
+      forum => this.store.dispatch(setForum({ forum })),
+      err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+    );
     
     combineLatest([
       this.store.select(selectUser),
@@ -39,8 +52,15 @@ export class ThreadsComponent implements OnInit {
       this.threads = threads;
     });
 
+    this.getThreads();
+  }
+
+  ngOnInit(): void {
+  }
+
+  getThreads() {
     this.service
-      .get(this.forumId)
+      .getAll(this.forumId)
       .pipe(first())
       .subscribe(
         threads => this.threads = threads,
@@ -48,18 +68,33 @@ export class ThreadsComponent implements OnInit {
       );
   }
 
-  ngOnInit(): void {
-  }
-
   getPostDate(thread: Thread) {
     return Formatter.getHumanDateTimeNoSeconds(thread.LastPostDate);
   }
 
-  createThread() {}
+  createThread() {
+    this.store.dispatch(setFlyoutContent({ title: 'Create Thread', content: FlyoutContent.Threads.Add, onClose: this.getThreads.bind(this) }));
+    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
+  }
 
-  editThread(thread: Thread) {}
+  editThread(thread: Thread) {
+    this.store.dispatch(setThread({ thread }));
+    this.store.dispatch(setFlyoutContent({ title: `Edit ${thread.ThreadName}`, content: FlyoutContent.Threads.Edit }));
+    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
+  }
 
-  deleteThread(threadId: number) {}
+  deleteThread(threadId: number) {
+    this.service.delete(threadId).subscribe(
+      threads => {
+        this.threads = threads;
+        this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Thread deleted!' });
+      },
+      err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+    )
+  }
 
-  openPosts(threadId: number) {}
+  openPosts(thread: Thread) {
+    this.store.dispatch(setThread({ thread }));
+    this.router.navigate(['/forums', thread.BoardId, 'threads', thread.ThreadId]);
+  }
 }

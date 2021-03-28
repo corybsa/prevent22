@@ -2,6 +2,20 @@ const Helper = require('../../helper');
 const StatementType = require('../../statement-type');
 const helper = new Helper();
 
+module.exports.get = (req, next) => {
+    try {
+        let params;
+
+        helper.checkNumber(req, 'BoardId', helper.REQUIRED);
+
+        params = helper.getParameters(req, false, StatementType.Get);
+
+        helper.exec('sp_Boards', params, next);
+    } catch(e) {
+        next(e.message, null);
+    }
+};
+
 module.exports.getAll = (req, next) => {
     try {
         let params;
@@ -33,7 +47,7 @@ module.exports.update = (req, next) => {
     try {
         let params;
 
-        helper.checkString(req, 'BoardId', helper.REQUIRED);
+        helper.checkNumber(req, 'BoardId', helper.REQUIRED);
         helper.checkString(req, 'BoardName', helper.REQUIRED);
         helper.checkString(req, 'BoardDescription', helper.REQUIRED);
 

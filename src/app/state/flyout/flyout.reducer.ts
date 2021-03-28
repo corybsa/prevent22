@@ -5,8 +5,8 @@ import { FlyoutStatus } from "src/app/models/flyout/flyout-status";
 import { Helper } from "src/app/models/helper";
 import { navFlyoutBack, setFlyout, setFlyoutContent, setFlyoutStatus } from "./flyout.actions";
 
-export const initialState: Readonly<Flyout> = {
-    status: FlyoutStatus.CLOSED,
+export const initialState: Flyout = {
+    status: FlyoutStatus.Closed,
     title: null,
     content: null,
     history: [],
@@ -21,7 +21,11 @@ export const flyoutReducer = createReducer(
         const newState: Flyout = Helper.copy(state);
         newState.status = status;
 
-        if(status === FlyoutStatus.CLOSED) {
+        if(status === FlyoutStatus.Closed) {
+            if(state.onClose) {
+                state.onClose();
+            }
+
             newState.title = null;
             newState.content = null;
             newState.history = [];

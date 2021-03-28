@@ -11,8 +11,15 @@ export class ForumsService {
         private helper: NetworkHelperService
     ) {}
 
-    getAll(): Observable<Forum[]> {
+    get(ForumId: number): Observable<Forum> {
         const url = '/api/forum';
+        const data = this.helper.getParams({ BoardId: ForumId });
+
+        return this.http.get<Forum>(url, data);
+    }
+
+    getAll(): Observable<Forum[]> {
+        const url = '/api/forum/all';
 
         return this.http.get<Forum[]>(url);
     }

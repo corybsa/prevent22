@@ -19,7 +19,7 @@
             </ng-template>
             <ng-template pTemplate="body" let-thread>
                 <tr class="thread" [class.closed]="thread.IsClosed">
-                    <div (click)="openThreads(forum.BoardId)">
+                    <div (click)="openPosts(thread)">
                         <td>{{ thread.ThreadName }} <i class="fa fa-lock" style="display: none;"></i></td>
                         <td>{{ thread.PostCount }}</td>
                         <td>

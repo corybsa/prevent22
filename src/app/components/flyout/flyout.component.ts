@@ -2,6 +2,7 @@ import { Component, OnDestroy } from "@angular/core";
 import { Router } from "@angular/router";
 import { select, Store } from "@ngrx/store";
 import { combineLatest, Subscription } from "rxjs";
+import { Flyout } from "src/app/models/flyout/flyout";
 import { FlyoutContent } from "src/app/models/flyout/flyout-content";
 import { FlyoutStatus } from "src/app/models/flyout/flyout-status";
 import { Helper } from "src/app/models/helper";
@@ -30,6 +31,8 @@ export class FlyoutComponent implements OnDestroy {
 
   isMobile: boolean;
 
+  storeFlyout: Flyout;
+
   constructor(
     private router: Router,
     private store: Store
@@ -45,6 +48,7 @@ export class FlyoutComponent implements OnDestroy {
           return;
         }
 
+        this.storeFlyout = flyout;
         this.status = flyout.status;
         this.title = flyout.title;
         this.content = flyout.content;
@@ -52,12 +56,11 @@ export class FlyoutComponent implements OnDestroy {
 
         this.user = user;
 
-        if (this.status === FlyoutStatus.OPEN) {
+        if (this.status === FlyoutStatus.Open) {
           $('app-flyout').stop().show().animate({ right: 0 }, 400);
           $('.flyout-body').scrollTop(0);
           $('html').css('overflow', 'hidden');
         } else {
-          /* let width = window.innerWidth * -0.4;*/
           let width = window.innerWidth * -0.45;
 
           if (window.innerWidth <= 425) {
@@ -75,7 +78,7 @@ export class FlyoutComponent implements OnDestroy {
 
     this.subscriptions.push(
       this.router.events.subscribe((val) => {
-        if (this.status === FlyoutStatus.OPEN) {
+        if (this.status === FlyoutStatus.Open) {
           this.closeFlyout();
         }
       })
@@ -89,7 +92,11 @@ export class FlyoutComponent implements OnDestroy {
   }
 
   closeFlyout() {
-    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.CLOSED }));
+    if(this.storeFlyout.onClose) {
+      this.storeFlyout.onClose();
+    }
+
+    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
   }
 
   navigateBack() {

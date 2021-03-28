@@ -3,4 +3,9 @@ export class FlyoutContent {
         Add: 'create forum',
         Edit: 'edit forum'
     };
+
+    static Threads = {
+        Add: 'create thread',
+        Edit: 'edit thread'
+    };
 }

@@ -7,7 +7,7 @@ import { Forum } from 'src/app/models/forum/forum';
 import { Helper } from 'src/app/models/helper';
 import { ForumsService } from 'src/app/services/forums/forums.service';
 import { setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
-import { setAllForums } from 'src/app/state/forums/forums.actions';
+import { setAllForums, setForum } from 'src/app/state/forums/forums.actions';
 import { selectForum } from 'src/app/state/forums/forums.selectors';
 
 @Component({
@@ -34,8 +34,9 @@ export class EditForumFlyoutComponent implements OnInit {
       this.service.update(this.forum.BoardId, this.forum.BoardName, this.forum.BoardDescription).subscribe(
         forums => {
           this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Forum updated!' });
+          this.store.dispatch(setForum({ forum: null }));
           this.store.dispatch(setAllForums({ forums }));
-          this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.CLOSED }));
+          this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
         err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
       );

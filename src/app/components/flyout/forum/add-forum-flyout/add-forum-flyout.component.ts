@@ -32,7 +32,7 @@ export class AddForumFlyoutComponent implements OnInit {
         forums => {
           this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Forum Created!' });
           this.store.dispatch(setAllForums({ forums }));
-          this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.CLOSED }));
+          this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
         err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
       );

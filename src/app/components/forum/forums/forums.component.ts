@@ -54,7 +54,7 @@ export class ForumsComponent implements OnInit {
   }
 
   createForum() {
-    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.OPEN }));
+    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
     this.store.dispatch(setFlyoutContent({ title: 'Create forum', content: FlyoutContent.Forums.Add }));
   }
 
@@ -65,7 +65,7 @@ export class ForumsComponent implements OnInit {
   editForum(forum: Forum) {
     this.store.dispatch(setForum({ forum }));
     this.store.dispatch(setFlyoutContent({ title: `Edit ${forum.BoardName}`, content: FlyoutContent.Forums.Edit }));
-    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.OPEN }));
+    this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
   }
 
   deleteForum(forumId: number) {
@@ -80,7 +80,8 @@ export class ForumsComponent implements OnInit {
       );
   }
 
-  openThreads(forumId: number) {
-    this.router.navigate(['/forums', forumId, 'threads']);
+  openThreads(forum: Forum) {
+    this.store.dispatch(setForum({ forum }));
+    this.router.navigate(['/forums', forum.BoardId, 'threads']);
   }
 }
