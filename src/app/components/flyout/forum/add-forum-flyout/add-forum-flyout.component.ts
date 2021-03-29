@@ -4,6 +4,7 @@ import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Forum } from 'src/app/models/forum/forum';
+import { Helper } from 'src/app/models/helper';
 import { ForumsService } from 'src/app/services/forums/forums.service';
 import { setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
 import { setAllForums } from 'src/app/state/forums/forums.actions';
@@ -30,11 +31,11 @@ export class AddForumFlyoutComponent implements OnInit {
     if(form.valid) {
       this.service.create(this.forum.BoardName, this.forum.BoardDescription).subscribe(
         forums => {
-          this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Forum Created!' });
+          Helper.showSuccess(this.toast, 'Forum created!');
           this.store.dispatch(setAllForums({ forums }));
           this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       );
     }
   }

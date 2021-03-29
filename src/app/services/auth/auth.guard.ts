@@ -4,6 +4,7 @@ import { Store } from "@ngrx/store";
 import { MessageService } from "primeng/api";
 import { Observable } from "rxjs";
 import { catchError, map } from "rxjs/operators";
+import { Helper } from "src/app/models/helper";
 import { SystemRoles } from "src/app/models/user/system-roles";
 import { User } from "src/app/models/user/user";
 import { setUser } from "src/app/state/user/user.actions";
@@ -52,8 +53,7 @@ export class AuthGuard implements CanActivate {
                     return true;
                 }),
                 catchError(err => {
-                    console.log(err);
-                    this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message, closable: true, sticky: true });
+                    Helper.showError(this.toast, err.error.message);
                     this.router.navigate(['/login']);
                     return new Observable<boolean>(o => o.complete());
                 })

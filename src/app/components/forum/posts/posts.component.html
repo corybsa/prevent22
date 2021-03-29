@@ -1,0 +1,67 @@
+<div class="px-4 p-4">
+	<div class="container">
+		<a class="p22-link" [routerLink]="['/forums', forumId, 'threads']" style="display: block;">
+			<i class="fa fa-arrow-left" style="color: hsl(2, 83%, 58%) !important"></i> Back to threads
+		</a>
+        <h3 *ngIf="thread">{{ thread.ThreadName }}</h3>
+
+        <div class="container">
+            <div class="row">
+                <div class="col-2">
+                    <h6 class="mt-1 mb-1">Author</h6>
+                </div>
+                <div class="col-10">
+                    <h6 class="mt-1 mb-1">Posts</h6>
+                </div>
+            </div>
+        </div>
+
+        <ng-container *ngFor="let post of posts">
+            <div class="container post">
+                <div class="row post-header">
+                    <div class="col-12" style="font-size: 0.8rem;">{{ post.CreatedDate | humanDate:'datetimeshort' }}</div>
+                </div>
+                <div class="row pt-2 pb-2">
+                    <div class="col-12 col-lg-2 col-sm-4 post-author">
+                        <p class="m-0">{{ post.Author }}</p>
+                        <p class="m-0" style="font-size: 0.8rem;"><em>{{ post.RoleName }}</em></p>
+
+                        <ng-container *ngIf="user && user.hasRole([systemRoles.Admin, systemRoles.Moderator])">
+                            <span (click)="editPost(post)">
+                                <i class="fa fa-edit post-action-edit" pTooltip="Edit post" tooltipPosition="top"></i>
+                            </span>
+                            <span (click)="warnUser(post)">
+                                <i class="fa fa-exclamation post-action-warn" pTooltip="Warn user" tooltipPosition="top"></i>
+                            </span>
+                            <span (click)="deletePost(post)">
+                                <i class="fa fa-times post-action-delete" pTooltip="Delete post" tooltipPosition="top"></i>
+                            </span>
+                        </ng-container>
+                    </div>
+                    <div class="col-12 col-lg-10 col-sm-8 post-content">
+                        <p class="m-0" [innerHtml]="post.Message"></p>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
+
+        <ng-container *ngIf="user">
+            <h5 style="margin-top: 10px;">Reply to this thread</h5>
+
+            <form #form="ngForm" name="form" (ngSubmit)="submitReply(form)">
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <p-editor id="replyMessage" name="replyMessage" [(ngModel)]="reply.Message" required #replyMessage="ngModel" [style]="{'height': '320px'}"></p-editor>
+                        <div [hidden]="replyMessage.valid || replyMessage.pristine" class="form-error">A message is required to reply.</div>
+                    </div>
+                </div>
+
+                <div class="row">
+                    <div class="col-12 form-group">
+                        <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Reply</button>
+                    </div>
+                </div>
+            </form>
+        </ng-container>
+	</div>
+</div>

@@ -15,6 +15,7 @@ import { first } from 'rxjs/operators';
 import { setAllForums, setForum } from 'src/app/state/forums/forums.actions';
 import { MessageService } from 'primeng/api';
 import { Router } from '@angular/router';
+import { Helper } from 'src/app/models/helper';
 
 @Component({
   selector: 'app-forums',
@@ -45,7 +46,7 @@ export class ForumsComponent implements OnInit {
       .pipe(first())
       .subscribe(
         forums => this.forums = forums,
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       );
   }
 
@@ -76,7 +77,7 @@ export class ForumsComponent implements OnInit {
         forums => {
           this.store.dispatch(setAllForums({ forums }));
         },
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       );
   }
 

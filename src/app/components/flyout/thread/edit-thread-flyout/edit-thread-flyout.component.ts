@@ -49,12 +49,12 @@ export class EditThreadFlyoutComponent implements OnInit, OnDestroy {
           !!this.thread.IsClosed
         ).subscribe(
           threads => {
-            this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Thread updated!' });
+            Helper.showSuccess(this.toast, 'Thread updated!');
             this.store.dispatch(setThread({ thread: null }));
             this.store.dispatch(setThreads({ threads }));
             this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
           },
-          err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+          err => Helper.showError(this.toast, err.error.message)
         )
       );
     }

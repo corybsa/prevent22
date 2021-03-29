@@ -1,6 +1,6 @@
 @font-face {
     font-family: 'Rajdhani';
-    src: url('assets/fonts/Rajdhani-Regular.ttf'), url('assets/fonts/Rajdhani-Bold.ttf')
+    src: url('./assets/fonts/Rajdhani-Regular.ttf'), url('./assets/fonts/Rajdhani-Bold.ttf')
 }
 
 html, body {

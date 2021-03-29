@@ -6,6 +6,7 @@ import { Observable, Subscription } from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Forum } from 'src/app/models/forum/forum';
+import { Helper } from 'src/app/models/helper';
 import { Post } from 'src/app/models/post/post';
 import { Thread } from 'src/app/models/thread/thread';
 import { User } from 'src/app/models/user/user';
@@ -56,7 +57,7 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.threadService.create(this.forum.BoardId, this.thread.ThreadName, this.user.UserId).subscribe(
         thread => this.createPost(thread),
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       )
     );
   }
@@ -65,11 +66,11 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
     this.subs.push(
       this.postService.create(this.post.Message, this.user.UserId, thread.ThreadId).subscribe(
         post => {
-          this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Thread created!' });
+          Helper.showSuccess(this.toast, 'Thread created!');
           this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
         err => {
-          this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message });
+          Helper.showError(this.toast, err.error.message);
           this.deleteThread(thread);
         }
       )
@@ -82,7 +83,7 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
         .delete(thread.ThreadId)
         .pipe(
           catchError(err => {
-            this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+            Helper.showError(this.toast, err.error.message);
             return new Observable(o => o.complete());
           })
         )

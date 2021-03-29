@@ -1,3 +1,4 @@
+import { MessageService } from 'primeng/api';
 import * as _ from 'underscore';
 
 export class Helper {
@@ -41,6 +42,14 @@ export class Helper {
   
     static isMobile() {
       return navigator.userAgent.match(/Android|iPhone|iPad|iPod/i) !== null;
+    }
+
+    static showSuccess(toast: MessageService, message: string, sticky: boolean = false) {
+      toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: message, sticky });
+    }
+
+    static showError(toast: MessageService, message: string, sticky: boolean = false) {
+      toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: message, sticky });
     }
   }
   

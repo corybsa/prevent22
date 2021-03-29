@@ -46,7 +46,7 @@ export const flyoutReducer = createReducer(
         }
 
         if(state.content !== content && state.content !== null) {
-            newState.history.push({ title: state.title, content: state.content, onClose: state.onClose });
+            newState.history = [...newState.history, { title: state.title, content: state.content, onClose: state.onClose }];
         }
 
         if(newState.history.length > 0) {
@@ -57,7 +57,9 @@ export const flyoutReducer = createReducer(
     }),
     on(navFlyoutBack, (state) => {
         const newState: Flyout = Helper.copy(state);
-        const historyItem: FlyoutHistory = state.history.pop();
+        const history: FlyoutHistory[] = Helper.copy(newState.history);
+        const historyItem: FlyoutHistory = history.pop();
+        newState.history = history;
         newState.title = historyItem.title;
         newState.content = historyItem.content;
         newState.onClose = historyItem.onClose;

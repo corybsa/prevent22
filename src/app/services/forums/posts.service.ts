@@ -11,7 +11,7 @@ export class PostsService {
         private helper: NetworkHelperService
     ) {}
 
-    get(ThreadId: number): Observable<Post[]> {
+    getAll(ThreadId: number): Observable<Post[]> {
         const url = '/api/forum/posts';
         const data = this.helper.getParams({ ThreadId });
 

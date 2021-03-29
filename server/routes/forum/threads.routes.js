@@ -4,10 +4,20 @@ const Helper = require('../../helper');
 const helper = new Helper();
 const Threads = require('../../models/forums/threads.model');
 
+router.get('/all', (req, res) => {
+    Threads.getAll(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
 router.get('/', (req, res) => {
     Threads.get(req, (err, data) => {
         if(!err) {
-            res.status(200).json(helper.processResults(data.recordset));
+            res.status(200).json(helper.processResults(data.recordset[0]));
         } else {
             res.status(400).json(err);
         }

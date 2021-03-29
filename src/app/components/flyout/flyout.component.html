@@ -1,5 +1,5 @@
 <div class="flyout-header">
-  <span *ngIf="!showBack" class="flyout-back" (click)="navigateBack()">
+  <span *ngIf="showBack" class="flyout-back" (click)="navigateBack()">
     <i class="pi pi-angle-left"></i>
   </span>
 
@@ -15,6 +15,7 @@
     <div class="card-body">
       <app-flyout-forum [content]="content"></app-flyout-forum>
       <app-flyout-thread [content]="content"></app-flyout-thread>
+      <app-flyout-post [content]="content"></app-flyout-post>
     </div>
   </div>
 </div>

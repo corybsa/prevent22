@@ -5,7 +5,7 @@ const helper = new Helper();
 const Posts = require('../../models/forums/posts.model');
 
 router.get('/', (req, res) => {
-    Posts.get(req, (err, data) => {
+    Posts.getThreadPosts(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {

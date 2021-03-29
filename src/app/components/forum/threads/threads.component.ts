@@ -7,6 +7,7 @@ import { first } from 'rxjs/operators';
 import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Formatter } from 'src/app/models/formatter';
+import { Helper } from 'src/app/models/helper';
 import { Thread } from 'src/app/models/thread/thread';
 import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
@@ -41,7 +42,7 @@ export class ThreadsComponent implements OnInit {
 
     this.forumService.get(this.forumId).subscribe(
       forum => this.store.dispatch(setForum({ forum })),
-      err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+      err => Helper.showError(this.toast, err.error.message)
     );
     
     combineLatest([
@@ -64,7 +65,7 @@ export class ThreadsComponent implements OnInit {
       .pipe(first())
       .subscribe(
         threads => this.threads = threads,
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       );
   }
 
@@ -87,9 +88,9 @@ export class ThreadsComponent implements OnInit {
     this.service.delete(threadId).subscribe(
       threads => {
         this.threads = threads;
-        this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Thread deleted!' });
+        Helper.showSuccess(this.toast, 'Thread deleted!');
       },
-      err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+      err => Helper.showError(this.toast, err.error.message)
     )
   }
 

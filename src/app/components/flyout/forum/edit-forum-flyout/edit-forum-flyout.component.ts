@@ -33,12 +33,12 @@ export class EditForumFlyoutComponent implements OnInit {
     if(form.valid) {
       this.service.update(this.forum.BoardId, this.forum.BoardName, this.forum.BoardDescription).subscribe(
         forums => {
-          this.toast.add({ key: 'app-toast', severity: 'success', summary: 'Success', detail: 'Forum updated!' });
+          Helper.showSuccess(this.toast, 'Forum updated!');
           this.store.dispatch(setForum({ forum: null }));
           this.store.dispatch(setAllForums({ forums }));
           this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
-        err => this.toast.add({ key: 'app-toast', severity: 'error', summary: 'Error', detail: err.error.message })
+        err => Helper.showError(this.toast, err.error.message)
       );
     }
   }

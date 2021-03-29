@@ -4,6 +4,7 @@ import { FlyoutComponent } from './flyout.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { FlyoutForumModule } from './forum/flyout-forum.module';
 import { FlyoutThreadModule } from './thread/flyout-thread.module';
+import { FlyoutPostModule } from './post/flyout-post.module';
 
 @NgModule({
   declarations: [
@@ -13,7 +14,8 @@ import { FlyoutThreadModule } from './thread/flyout-thread.module';
     CommonModule,
     BrowserAnimationsModule,
     FlyoutForumModule,
-    FlyoutThreadModule
+    FlyoutThreadModule,
+    FlyoutPostModule
   ],
   exports: [
     FlyoutComponent

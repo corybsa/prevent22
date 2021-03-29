@@ -12,12 +12,21 @@ export class ThreadsService {
     ) {}
 
     getAll(ForumId: number): Observable<Thread[]> {
-        const url = '/api/forum/threads';
+        const url = '/api/forum/threads/all';
         const data = this.helper.getParams({
             BoardId: ForumId
         });
 
         return this.http.get<Thread[]>(url, data);
+    }
+
+    get(ThreadId: number): Observable<Thread> {
+        const url = '/api/forum/threads';
+        const data = this.helper.getParams({
+            ThreadId
+        });
+
+        return this.http.get<Thread>(url, data);
     }
 
     create(ForumId: number, ThreadName: string, CreatedBy: number): Observable<Thread> {

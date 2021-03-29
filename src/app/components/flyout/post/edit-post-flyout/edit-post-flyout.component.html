@@ -1,0 +1,12 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+    <div class="row col-12 form-group">
+        <p-editor id="message" name="message" [(ngModel)]="post.Message" required #message="ngModel" [style]="{'height': '320px'}"></p-editor>
+        <div [hidden]="message.valid || message.pristine">Message cannot be empty.</div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+    </div>
+</form>

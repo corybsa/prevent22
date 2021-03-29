@@ -10,7 +10,7 @@
     <div class="row">
         <div class="col-12 form-group">
             <label for="postMessage">Message</label>
-            <p-editor id="postMessage" name="postMessage" [(ngModel)]="post.Message" required #postMessage="ngModel" [style]="{'height':'320px'}"></p-editor>
+            <p-editor id="postMessage" name="postMessage" [(ngModel)]="post.Message" required #postMessage="ngModel" [style]="{'height': '320px'}"></p-editor>
             <div [hidden]="postMessage.valid || postMessage.pristine" class="form-error">A message is required to submit a post.</div>
         </div>
     </div>

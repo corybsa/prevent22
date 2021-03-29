@@ -19,6 +19,7 @@ import { PasswordValidatorDirective } from './directives/password-validator.dire
 import { FlyoutModule } from './components/flyout/flyout.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
+import { PipesModule } from './pipes/pipes.module';
 
 @NgModule({
   declarations: [
@@ -39,7 +40,8 @@ import { MessageService } from 'primeng/api';
     StoreDevtoolsModule.instrument({ maxAge: 25, logOnly: environment.production }),
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FlyoutModule,
-    ToastModule
+    ToastModule,
+    PipesModule
   ],
   providers: [
     AuthGuard,
