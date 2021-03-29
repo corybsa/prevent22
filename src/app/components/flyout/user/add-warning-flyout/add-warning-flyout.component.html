@@ -1,0 +1,52 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+    <div class="row">
+        <div class="col-12 form-group">
+            <p>Previous warnings for this user:</p>
+            
+            <ng-container *ngIf="userWarnings">
+                <p *ngIf="userWarnings.length === 0">This user doesn't have any previous warnings.</p>
+                <ul *ngIf="userWarnings.length > 0">
+                    <li *ngFor="let warning of userWarnings">
+                        {{ warning.WarningReason }}
+                    </li>
+                </ul>
+            </ng-container>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="reason">Reason</label>
+            <input type="text" class="form-control" id="reason" name="reason" [(ngModel)]="warning.WarningReason" required #reason="ngModel" />
+            <div [hidden]="reason.valid || reason.pristine">Please provide a reason.</div>
+        </div>
+    </div>
+
+    <div class="mb-2 form-check">
+        <input type="checkbox" class="form-check-input" id="shouldBanUser" name="shouldBanUser" [(ngModel)]="warning.ShouldBanUser" #shouldBanUser="ngModel" />
+        <label for="shouldBanUser" class="form-check-label">Ban user</label>
+    </div>
+
+    <div class="row" *ngIf="warning.ShouldBanUser">
+        <div class="col-6">
+            <label for="banUntil">Ban until</label>
+            <p-calendar
+                id="banUntil"
+                name="banUntil"
+                [required]="warning.shouldBanUser"
+                [(ngModel)]="warning.BanUntil"
+                [minDate]="today"
+                [showTime]="true"
+                hourFormat="12"
+                dateFormat="formatter.HUMAN_DATETIME_NO_SECONDS"
+                #banUntil="ngModel"
+            ></p-calendar>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+    </div>
+</form>

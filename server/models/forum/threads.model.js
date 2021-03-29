@@ -12,7 +12,7 @@ module.exports.getAll = (req, next) => {
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
-        next(e.message, null);
+        next({ message: e.message }, null);
     }
 };
 
@@ -26,7 +26,7 @@ module.exports.get = (req, next) => {
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
-        next(e.message, null);
+        next({ message: e.message }, null);
     }
 };
 
@@ -42,7 +42,7 @@ module.exports.create = (req, next) => {
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
-        next(e.message, null);
+        next({ message: e.message }, null);
     }
 };
 
@@ -61,7 +61,7 @@ module.exports.update = (req, next) => {
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
-        next(e.message, null);
+        next({ message: e.message }, null);
     }
 };
 
@@ -75,6 +75,6 @@ module.exports.delete = (req, next) => {
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
-        next(e.message, null);
+        next({ message: e.message }, null);
     }
 };

@@ -2,10 +2,19 @@ const express = require('express');
 const router = express.Router();
 const Helper = require('../../helper');
 const helper = new Helper();
-const Forums = require('../../models/forum/forums.model');
+const Warnings = require('../../models/warning/warnings.model');
 
 router.get('/all', (req, res) => {
-    Forums.getAll(req, (err, data) => {
+    if(!req.isAuthenticated()) {
+        res.status(440).json({ message: 'User not logged in.' });
+        return;
+    }
+
+    if(!helper.hasRole(req, [helper.roles.Admin, helper.roles.Moderator])) {
+        return res.status(403).json({ message: 'Not authorized to perform this action.' });
+    }
+    
+    Warnings.getAll(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {
@@ -15,7 +24,16 @@ router.get('/all', (req, res) => {
 });
 
 router.get('/', (req, res) => {
-    Forums.get(req, (err, data) => {
+    if(!req.isAuthenticated()) {
+        res.status(440).json({ message: 'User not logged in.' });
+        return;
+    }
+
+    if(!helper.hasRole(req, [helper.roles.Admin, helper.roles.Moderator])) {
+        return res.status(403).json({ message: 'Not authorized to perform this action.' });
+    }
+
+    Warnings.get(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset[0]));
         } else {
@@ -34,7 +52,7 @@ router.post('/', (req, res) => {
         return res.status(403).json({ message: 'Not authorized to perform this action.' });
     }
 
-    Forums.create(req, (err, data) => {
+    Warnings.create(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {
@@ -53,7 +71,7 @@ router.put('/', (req, res) => {
         return res.status(403).json({ message: 'Not authorized to perform this action.' });
     }
 
-    Forums.update(req, (err, data) => {
+    Warnings.update(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {
@@ -72,7 +90,7 @@ router.delete('/', (req, res) => {
         return res.status(403).json({ message: 'Not authorized to perform this action.' });
     }
 
-    Forums.delete(req, (err, data) => {
+    Warnings.delete(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {

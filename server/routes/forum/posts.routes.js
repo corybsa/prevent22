@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const Helper = require('../../helper');
 const helper = new Helper();
-const Posts = require('../../models/forums/posts.model');
+const Posts = require('../../models/forum/posts.model');
 
 router.get('/', (req, res) => {
     Posts.getThreadPosts(req, (err, data) => {

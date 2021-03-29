@@ -82,7 +82,7 @@ export class PostsComponent implements OnInit {
 
   warnUser(post: Post) {
     this.store.dispatch(setPost({ post }));
-    this.store.dispatch(setFlyoutContent({ title: `Issue warning to ${post.Author}`, content: FlyoutContent.User.Warn }));
+    this.store.dispatch(setFlyoutContent({ title: `Issue warning to ${post.Author}`, content: FlyoutContent.User.AddWarning }));
     this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
   }
 

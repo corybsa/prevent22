@@ -14,6 +14,6 @@ export class FlyoutContent {
     };
 
     static User = {
-        Warn: 'create warning'
+        AddWarning: 'create warning'
     };
 }
