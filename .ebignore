@@ -1,3 +1,4 @@
+.git
 .github
 e2e
 node_modules
@@ -6,9 +7,6 @@ src
 .browserslistrc
 .editorconfig
 .gitignore
-angular.json
-karma.conf.js
-ngsw-config.json
 README.md
 tsconfig.app.json
 tsconfig.json
