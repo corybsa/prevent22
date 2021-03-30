@@ -1,3 +1,4 @@
+const env = require('./config/env');
 const sql = require('mssql');
 const moment = require('moment');
 const config = require('../server/config/config');
@@ -126,7 +127,7 @@ class Helper {
      */
     logMessage(message, color = this.BLUE_TEXT, override = false) {
         // disable in prod to improve performance
-        if (process.env.NODE_ENV !== 'prod' || override) {
+        if (env !== 'prod' || override) {
             console.log(color, `${message}`);
         }
     }

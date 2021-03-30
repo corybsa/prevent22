@@ -1,8 +1,8 @@
+const env = require('./server/config/env');
 const express = require('express');
 const session = require('express-session');
 const FileStore = require('session-file-store')(session);
 const RateLimit = require('express-rate-limit');
-const uuid = require('uuid/v4');
 const passport = require('passport');
 const LocalStrategy = require('passport-local').Strategy;
 const bodyParser = require('body-parser');
@@ -107,7 +107,7 @@ app.use(session({
     cookie: {
         path: '/',
         httpOnly: true,
-        secure: false, // require HTTPS connection
+        secure: env === 'prod', // require HTTPS connection in prod
         sameSite: true, // blocks CORS requests on cookies
         maxAge: sessionTimeout * 1000
     },
@@ -123,7 +123,7 @@ app.use(session({
 app.use(csrf(), (req, res, next) => {
     res.cookie('XSRF-TOKEN', req.csrfToken(), {
         path: '/',
-        secure: false, // require HTTPS
+        secure: env === 'prod', // require HTTPS connection in prod
         sameSite: true // block CORS requests
     });
     next();
