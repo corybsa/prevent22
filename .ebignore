@@ -1,0 +1,16 @@
+.github
+e2e
+node_modules
+sessions
+src
+.browserslistrc
+.editorconfig
+.gitignore
+angular.json
+karma.conf.js
+ngsw-config.json
+README.md
+tsconfig.app.json
+tsconfig.json
+tsconfig.spec.json
+tslint.json
