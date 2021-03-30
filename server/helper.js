@@ -3,7 +3,7 @@ const moment = require('moment');
 const config = require('../server/config/config');
 // const multer = require('multer');
 // const crypto = require('crypto');
-const bcrypt = require('bcrypt');
+const bcrypt = require('bcryptjs');
 // const fs = require('fs');
 
 class Helper {
@@ -203,7 +203,7 @@ class Helper {
     } */
 
     hashPassword(password, callback) {
-        bcrypt.hash(password, config.crypto.costFactor, callback);
+        bcrypt.hash(password, config.crypto.rounds, callback);
     }
 
     verifyPassword(password, hash, callback) {

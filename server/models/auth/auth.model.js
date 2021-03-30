@@ -20,10 +20,10 @@ module.exports.login = (req, next) => {
                     return next({ message: 'Invalid username or password.' }, null);
                 }
                 
-                helper.verifyPassword(req.body.Password, data.Hash, (err, result) => {
+                helper.verifyPassword(req.body.Password, data.Hash, (err, success) => {
                     if(err) {
                         next(err, null);
-                    } else if(!result) {
+                    } else if(!success) {
                         next({ message: 'Invalid username or password.' }, null);
                     } else {
                         delete data.Hash;

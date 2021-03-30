@@ -75,6 +75,7 @@ export class ForumsComponent implements OnInit {
       .pipe(first())
       .subscribe(
         forums => {
+          Helper.showSuccess(this.toast, 'Forum deleted!');
           this.store.dispatch(setAllForums({ forums }));
         },
         err => Helper.showError(this.toast, err.error.message)
