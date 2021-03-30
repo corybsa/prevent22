@@ -154,10 +154,10 @@ app.all('*', fileSystemLimiter, (req, res) => {
 });
 
 //Set port
-const port = process.env.PORT || '3000';
+const port = process.env.PORT || '8081';
 app.set('port', port);
 
 const server = http.createServer(app);
-server.listen(port, () => console.log(`Running on http://localhost:${port}`));
+server.listen(port, () => console.log(`Running on port ${port}`));
 
 module.exports = app;
