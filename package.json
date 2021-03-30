@@ -14,7 +14,8 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "dev": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --watch --aot",
-    "prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --build-optimizer --optimization"
+    "prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --build-optimizer --optimization",
+    "upload": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --build-optimizer --optimization && eb deploy"
   },
   "private": true,
   "dependencies": {
