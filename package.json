@@ -13,7 +13,8 @@
     "test-server": "node ./node_modules/mocha/bin/mocha ./server/**",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "dev": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --watch --aot"
+    "dev": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --watch --aot",
+    "prod": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --prod --aot --build-optimizer --optimization"
   },
   "private": true,
   "dependencies": {

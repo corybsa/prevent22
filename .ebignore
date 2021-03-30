@@ -7,6 +7,9 @@ src
 .browserslistrc
 .editorconfig
 .gitignore
+angular.json
+karma.conf.json
+ngsw-config.json
 README.md
 tsconfig.app.json
 tsconfig.json
