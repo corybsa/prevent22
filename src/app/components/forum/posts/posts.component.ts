@@ -3,7 +3,8 @@ import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
-import { combineLatest } from 'rxjs';
+import { combineLatest, of } from 'rxjs';
+import { skip, take } from 'rxjs/operators';
 import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Helper } from 'src/app/models/helper';
@@ -33,6 +34,11 @@ export class PostsComponent implements OnInit {
   user: User;
   systemRoles = SystemRoles;
 
+  // paginator
+  page: Post[] = [];
+  rows = 10;
+  first = 0;
+
   constructor(
     private postService: PostsService,
     private threadService: ThreadsService,
@@ -51,6 +57,8 @@ export class PostsComponent implements OnInit {
       this.thread = thread;
       this.posts = posts;
       this.user = user;
+
+      this.getPage(this.first);
     })
 
     this.getThread(threadId);
@@ -108,5 +116,22 @@ export class PostsComponent implements OnInit {
       },
       err => Helper.showError(this.toast, err.error.message)
     )
+  }
+
+  getPage(page: number) {
+    this.page = [];
+
+    of(...this.posts)
+      .pipe(
+        skip(this.rows * page),
+        take(this.rows)
+      )
+      .subscribe(post => this.page.push(post));
+  }
+
+  changePage(e) {
+    this.rows = e.rows;
+    this.first = e.first;
+    this.getPage(e.page);
   }
 }

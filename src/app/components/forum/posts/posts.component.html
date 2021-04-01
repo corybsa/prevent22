@@ -16,7 +16,7 @@
             </div>
         </div>
 
-        <ng-container *ngFor="let post of posts">
+        <ng-container *ngFor="let post of page">
             <div class="container post">
                 <div class="row post-header">
                     <div class="col-12" style="font-size: 0.8rem;">{{ post.CreatedDate | humanDate:'datetimeshort' }}</div>
@@ -44,6 +44,14 @@
                 </div>
             </div>
         </ng-container>
+
+        <p-paginator
+            *ngIf="page"
+            [rows]="rows"
+            [totalRecords]="posts.length"
+            [rowsPerPageOptions]="[10, 20, 50]"
+            (onPageChange)="changePage($event)"
+        ></p-paginator>
 
         <ng-container *ngIf="user">
             <h5 style="margin-top: 10px;">Reply to this thread</h5>

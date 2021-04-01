@@ -27,6 +27,9 @@ export class ForumsComponent implements OnInit {
   user: User;
   systemRoles = SystemRoles;
 
+  loading = true;
+  rows = 10;
+
   constructor(
     private forumService: ForumsService,
     private store: Store,
@@ -39,13 +42,17 @@ export class ForumsComponent implements OnInit {
     ]).subscribe(([user, forums]) => {
       this.user = user;
       this.forums = forums;
+
+      if(this.forums.length > 0) {
+        this.loading = false;
+      }
     });
 
     this.forumService
       .getAll()
       .pipe(first())
       .subscribe(
-        forums => this.forums = forums,
+        forums => this.store.dispatch(setAllForums({ forums })),
         err => Helper.showError(this.toast, err.error.message)
       );
   }
@@ -85,5 +92,9 @@ export class ForumsComponent implements OnInit {
   openThreads(forum: Forum) {
     this.store.dispatch(setForum({ forum }));
     this.router.navigate(['/forums', forum.BoardId, 'threads']);
+  }
+
+  changePage(e) {
+    this.rows = e.rows;
   }
 }

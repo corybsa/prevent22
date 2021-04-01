@@ -15,7 +15,7 @@ import { ForumsService } from 'src/app/services/forums/forums.service';
 import { ThreadsService } from 'src/app/services/forums/threads.service';
 import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
 import { setForum } from 'src/app/state/forums/forums.actions';
-import { setThread } from 'src/app/state/threads/threads.actions';
+import { setThread, setThreads } from 'src/app/state/threads/threads.actions';
 import { selectThreads } from 'src/app/state/threads/threads.selectors';
 import { selectUser } from 'src/app/state/user/user.selectors';
 
@@ -29,6 +29,9 @@ export class ThreadsComponent implements OnInit {
   threads: Thread[];
   user: User;
   systemRoles = SystemRoles;
+
+  loading = true;
+  rows = 10;
 
   constructor(
     private service: ThreadsService,
@@ -51,6 +54,10 @@ export class ThreadsComponent implements OnInit {
     ]).subscribe(([user, threads]) => {
       this.user = user;
       this.threads = threads;
+      
+      if(this.threads.length > 0) {
+        this.loading = false;
+      }
     });
 
     this.getThreads();
@@ -64,7 +71,7 @@ export class ThreadsComponent implements OnInit {
       .getAll(this.forumId)
       .pipe(first())
       .subscribe(
-        threads => this.threads = threads,
+        threads => this.store.dispatch(setThreads({ threads })),
         err => Helper.showError(this.toast, err.error.message)
       );
   }
@@ -97,5 +104,9 @@ export class ThreadsComponent implements OnInit {
   openPosts(thread: Thread) {
     this.store.dispatch(setThread({ thread }));
     this.router.navigate(['/forums', thread.BoardId, 'threads', thread.ThreadId]);
+  }
+
+  changePage(e) {
+    this.rows = e.rows;
   }
 }

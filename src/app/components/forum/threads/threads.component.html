@@ -6,7 +6,14 @@
         <a class="p22-link" routerLink="/forums" style="display: block;">
             <i class="fa fa-arrow-left" style="color: hsl(2, 83%, 58%) !important"></i> Back to forums
         </a>
-        <p-table [value]="threads">
+        <p-table
+            [value]="threads"
+            [loading]="loading"
+            [rowsPerPageOptions]="[10, 20, 50]"
+            [paginator]="true"
+            [rows]="rows"
+            (onPage)="changePage($event)"
+        >
             <ng-template pTemplate="header">
                 <tr>
                     <th>Thread</th>

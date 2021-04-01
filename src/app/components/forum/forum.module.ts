@@ -14,6 +14,7 @@ import { PostsService } from 'src/app/services/forums/posts.service';
 import { PipesModule } from 'src/app/pipes/pipes.module';
 import { TooltipModule } from 'primeng/tooltip';
 import { EditorModule } from 'primeng/editor';
+import { PaginatorModule } from 'primeng/paginator';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { EditorModule } from 'primeng/editor';
     TableModule,
     PipesModule,
     TooltipModule,
-    EditorModule
+    EditorModule,
+    PaginatorModule
   ],
   providers: [
     ForumsService,

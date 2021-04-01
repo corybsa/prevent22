@@ -9,7 +9,14 @@
                 Create new forum
             </button>
         </ng-container>
-        <p-table [value]="forums">
+        <p-table
+            [value]="forums"
+            [loading]="loading"
+            [rowsPerPageOptions]="[10, 20, 50]"
+            [paginator]="true"
+            [rows]="rows"
+            (onPage)="changePage($event)"
+        >
             <ng-template pTemplate="header">
                 <tr>
                     <th>Forum</th>
