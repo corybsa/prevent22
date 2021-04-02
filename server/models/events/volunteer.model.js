@@ -46,7 +46,7 @@ module.exports.create = (req, next) => {
                 email = email.replace('##EVENT_TITLE##', event.title)
                              .replace('##EVENT_START##', moment(event.start).format('MMMM Do YYYY hh:mm a'))
                              .replace('##EVENT_END##', moment(event.end).format('MMMM Do YYYY hh:mm a'))
-                             .replace('##EVENT_LOCATION##', event.location ?? 'No location specified')
+                             .replace('##EVENT_LOCATION##', event.location ? event.location : 'No location specified')
                              .replace('##REGISTRATION_CODE##', code);
 
                 helper.sendEmail(to, subject, email);

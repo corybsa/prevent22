@@ -8,7 +8,7 @@ src
 .editorconfig
 .gitignore
 angular.json
-karma.conf.json
+karma.conf.js
 ngsw-config.json
 README.md
 tsconfig.app.json
