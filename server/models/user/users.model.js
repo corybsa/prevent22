@@ -8,7 +8,7 @@ module.exports.getWarnings = (req, next) => {
         
         helper.checkNumber(req, 'UserId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Get);
+        params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {

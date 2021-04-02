@@ -23,6 +23,24 @@ router.get('/', (req, res) => {
         }
     });
 });
+router.get('/volunteers', (req, res) => {
+    if(!req.isAuthenticated()) {
+        res.status(440).json({ message: 'User not logged in.' });
+        return;
+    }
+
+    if(!helper.hasRole(req, helper.roles.Admin)) {
+        return res.status(403).json({ message: 'Not authorized to perform this action.' });
+    }
+
+    Events.getVolunteers(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
 
 router.post('/', (req, res) => {
     if(!req.isAuthenticated()) {

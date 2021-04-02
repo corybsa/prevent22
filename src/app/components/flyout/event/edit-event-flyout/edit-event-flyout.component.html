@@ -1,4 +1,16 @@
 <form #form="ngForm" name="form" (ngSubmit)="submit()">
+    <p-accordion>
+        <p-accordionTab header="Volunteer list">
+            <ul *ngIf="volunteers.length > 0">
+                <li *ngFor="let v of volunteers">
+                    {{ v.FirstName }} {{ v.LastName }} ({{ v.Email }})
+                </li>
+            </ul>
+
+            <p *ngIf="volunteers.length === 0">No volunteers for this event.</p>
+        </p-accordionTab>
+    </p-accordion>
+
     <div class="row">
         <div class="col-12 form-group">
             <label for="title">Title</label>

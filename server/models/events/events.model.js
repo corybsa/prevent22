@@ -4,7 +4,7 @@ const helper = new Helper();
 
 module.exports.getAll = (req, next) => {
     try {
-        let params = helper.getParameters(req, false, StatementType.Get);
+        let params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Events', params, next);
     } catch(e) {
@@ -18,9 +18,23 @@ module.exports.get = (req, next) => {
 
         helper.checkNumber(req, 'EventId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Get);
+        params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Events', params, next);
+    } catch(e) {
+        next({ message: e.message }, null);
+    }
+};
+
+module.exports.getVolunteers = (req, next) => {
+    try {
+        let params;
+
+        helper.checkNumber(req, 'EventId', helper.REQUIRED);
+
+        params = helper.getParameters(StatementType.Get);
+
+        helper.exec('sp_Volunteers', params, next);
     } catch(e) {
         next({ message: e.message }, null);
     }
@@ -43,7 +57,7 @@ module.exports.create = (req, next) => {
         helper.checkDateTime(req, 'endRecur', helper.OPTIONAL);
         helper.checkString(req, 'groupId', helper.OPTIONAL);
 
-        params = helper.getParameters(req, true, StatementType.Create);
+        params = helper.getParameters(StatementType.Create);
 
         helper.exec('sp_Events', params, next);
     } catch(e) {
@@ -69,7 +83,7 @@ module.exports.update = (req, next) => {
         helper.checkDateTime(req, 'endRecur', helper.OPTIONAL);
         helper.checkString(req, 'groupId', helper.OPTIONAL);
 
-        params = helper.getParameters(req, true, StatementType.Update);
+        params = helper.getParameters(StatementType.Update);
 
         helper.exec('sp_Events', params, next);
     } catch(e) {
@@ -83,7 +97,7 @@ module.exports.delete = (req, next) => {
 
         helper.checkNumber(req, 'EventId', helper.REQUIRED);
 
-        params = helper.getParameters(req, true, StatementType.Delete);
+        params = helper.getParameters(StatementType.Delete);
 
         helper.exec('sp_Events', params, next);
     } catch(e) {

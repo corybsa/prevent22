@@ -4,7 +4,7 @@ const helper = new Helper();
 
 module.exports.getAll = (req, next) => {
     try {
-        let params = helper.getParameters(req, false, StatementType.Get);
+        let params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {
@@ -18,7 +18,7 @@ module.exports.get = (req, next) => {
         
         helper.checkNumber(req, 'WarningId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Get);
+        params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {
@@ -37,7 +37,7 @@ module.exports.create = (req, next) => {
         helper.checkBoolean(req, 'ShouldBanUser', helper.REQUIRED);
         helper.checkDateTime(req, 'BanUntil', helper.OPTIONAL);
 
-        params = helper.getParameters(req, false, StatementType.Create);
+        params = helper.getParameters(StatementType.Create);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {
@@ -56,7 +56,7 @@ module.exports.update = (req, next) => {
         helper.checkNumber(req, 'CreatedById', helper.REQUIRED);
         helper.checkNumber(req, 'PostId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Update);
+        params = helper.getParameters(StatementType.Update);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {
@@ -70,7 +70,7 @@ module.exports.delete = (req, next) => {
 
         helper.checkNumber(req, 'WarningId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Delete);
+        params = helper.getParameters(StatementType.Delete);
 
         helper.exec('sp_Warnings', params, next);
     } catch(e) {

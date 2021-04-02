@@ -40,7 +40,7 @@ router.delete('/user', (req, res) => {
         return;
     }
 
-    Volunteer.cancelVolunteerByUser(req, (err, data) => {
+    Volunteer.cancelVolunteerByUserId(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset));
         } else {

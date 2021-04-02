@@ -249,20 +249,11 @@ class Helper {
     /**
      * Get all parameters formatted to send to SQL.
      *
-     * @param {*} req - The request from the client.
-     * @param {boolean} needsToBeLoggedIn - Check if the user needs to be logged in
      * @param {number} statementType - Which StatementType to use.
      * @returns {*} The formatted parameters or null if there are no parameters.
      */
-    getParameters(req, needsToBeLoggedIn, statementType) {
+    getParameters(statementType) {
         const params = [];
-
-        if (needsToBeLoggedIn && !req.session.passport) {
-            // if we don't clear the parameters between calls they will just keep appending to this array.
-            this.params = [];
-
-            throw new Error('Not logged in.');
-        }
 
         if (!statementType) {
             throw new Error('StatementType not found');

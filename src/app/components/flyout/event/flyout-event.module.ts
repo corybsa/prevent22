@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { ToastModule } from 'primeng/toast';
+import { AccordionModule } from 'primeng/accordion';
 import { FlyoutEventComponent } from './flyout-event.component';
 import { EventsService } from 'src/app/services/events/events.service';
 import { AddEventFlyoutComponent } from './add-event-flyout/add-event-flyout.component';
@@ -25,7 +26,8 @@ import { CancelVolunteerFlyoutComponent } from './cancel-volunteer-flyout/cancel
     FormsModule,
     ToastModule,
     CalendarModule,
-    EditorModule
+    EditorModule,
+    AccordionModule
   ],
   exports: [
     FlyoutEventComponent

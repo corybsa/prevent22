@@ -10,7 +10,7 @@ module.exports.get = (req, next) => {
 
         helper.checkNumber(req, 'UserId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Get);
+        params = helper.getParameters(StatementType.Get);
 
         helper.exec('sp_Volunteers', params, next);
     } catch(e) {
@@ -31,7 +31,7 @@ module.exports.create = (req, next) => {
         helper.checkString(req, 'Email', helper.OPTIONAL);
         helper.checkString(req, 'Code', helper.OPTIONAL);
 
-        params = helper.getParameters(req, false, StatementType.Create);
+        params = helper.getParameters(StatementType.Create);
 
         helper.exec('sp_Volunteers', params, (err, data) => {
             // TODO: send email
@@ -50,7 +50,7 @@ module.exports.cancelVolunteer = (req, next) => {
 
         helper.checkNumber(req, 'VolunteerId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Delete);
+        params = helper.getParameters(StatementType.Delete);
 
         helper.exec('sp_Volunteers', params, next);
     } catch(e) {
@@ -65,7 +65,7 @@ module.exports.cancelVolunteerByUserId = (req, next) => {
         helper.checkNumber(req, 'EventId', helper.REQUIRED);
         helper.checkNumber(req, 'UserId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Delete);
+        params = helper.getParameters(StatementType.Delete);
 
         helper.exec('sp_Volunteers', params, next);
     } catch(e) {
@@ -80,7 +80,7 @@ module.exports.cancelVolunteerByCode = (req, next) => {
         helper.checkNumber(req, 'EventId', helper.REQUIRED);
         helper.checkString(req, 'Code', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Delete);
+        params = helper.getParameters(StatementType.Delete);
 
         helper.exec('sp_Volunteers', params, next);
     } catch(e) {

@@ -2,6 +2,7 @@ import { HttpClient } from "@angular/common/http";
 import { Injectable } from "@angular/core";
 import { Observable } from "rxjs";
 import { Event } from "src/app/models/event/event";
+import { Volunteer } from "src/app/models/volunteer/volunteer";
 import { NetworkHelperService } from "../network-helper.service";
 
 @Injectable()
@@ -22,6 +23,13 @@ export class EventsService {
         const data = this.helper.getParams({ EventId });
         
         return this.http.get<Event>(url, data);
+    }
+
+    getVolunteers(EventId: number): Observable<Volunteer[]> {
+        const url = '/api/events/volunteers';
+        const data = this.helper.getParams({ EventId });
+        
+        return this.http.get<Volunteer[]>(url, data);
     }
 
     create(

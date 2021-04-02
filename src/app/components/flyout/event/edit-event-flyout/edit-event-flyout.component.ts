@@ -7,7 +7,9 @@ import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Helper } from 'src/app/models/helper';
 import { User } from 'src/app/models/user/user';
+import { Volunteer } from 'src/app/models/volunteer/volunteer';
 import { EventsService } from 'src/app/services/events/events.service';
+import { VolunteerService } from 'src/app/services/events/volunteer.service';
 import { setEvents } from 'src/app/state/events/events.actions';
 import { selectEvent } from 'src/app/state/events/events.selectors';
 import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
@@ -23,6 +25,7 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
   subs: Subscription[] = [];
   event = new Event();
   user: User;
+  volunteers: Volunteer[] = [];
   helper = Helper;
 
   showTitleMessage = false;
@@ -41,7 +44,12 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
       ]).subscribe(([event, user]) => {
         this.event = Helper.copy(event);
         this.user = user;
-      })
+      }),
+
+      this.service.getVolunteers(+this.event.id).subscribe(
+        volunteers => this.volunteers = volunteers,
+        err => Helper.showError(this.toast, err.error.message)
+      )
     );
   }
 
