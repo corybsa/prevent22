@@ -6,6 +6,7 @@ import { combineLatest, Subscription } from 'rxjs';
 import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Helper } from 'src/app/models/helper';
+import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
 import { Volunteer } from 'src/app/models/volunteer/volunteer';
 import { EventsService } from 'src/app/services/events/events.service';
@@ -27,6 +28,7 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
   user: User;
   volunteers: Volunteer[] = [];
   helper = Helper;
+  systemRoles = SystemRoles;
 
   showTitleMessage = false;
   showStartMessage = false;
@@ -44,12 +46,9 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
       ]).subscribe(([event, user]) => {
         this.event = Helper.copy(event);
         this.user = user;
-      }),
 
-      this.service.getVolunteers(+this.event.id).subscribe(
-        volunteers => this.volunteers = volunteers,
-        err => Helper.showError(this.toast, err.error.message)
-      )
+        this.getVolunteers();
+      })
     );
   }
 
@@ -58,6 +57,17 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
 
   ngOnDestroy() {
     this.subs.forEach(sub => sub.unsubscribe());
+  }
+
+  getVolunteers() {
+    if(this.user && this.user.hasRole(SystemRoles.Admin)) {
+      this.subs.push(
+        this.service.getVolunteers(+this.event.id).subscribe(
+          volunteers => this.volunteers = volunteers,
+          err => Helper.showError(this.toast, err.error.message)
+        )
+      );
+    }
   }
 
   submit() {
