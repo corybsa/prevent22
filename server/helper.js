@@ -6,6 +6,21 @@ const config = require('../server/config/config');
 // const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 // const fs = require('fs');
+const nodemailer = require('nodemailer');
+const aws = require('@aws-sdk/client-ses');
+
+const ses = new aws.SES({
+    region: 'us-east-2',
+    tls: true,
+    credentials: {
+        accessKeyId: config.email.username,
+        secretAccessKey: config.email.password
+    }
+});
+
+const transporter = nodemailer.createTransport({
+    SES: { ses, aws }
+});
 
 class Helper {
     constructor() {
@@ -586,6 +601,15 @@ class Helper {
         }
 
         return false;
+    }
+
+    sendEmail(to, subject, html) {
+        transporter.sendMail({
+            from: 'Prevent 22 Support <support@iamuncleguy.com>',
+            to,
+            subject,
+            html
+        });
     }
 }
 

@@ -1,6 +1,8 @@
 const Helper = require('../../helper');
 const StatementType = require('../../statement-type');
 const helper = new Helper();
+const config = require('../../config/config');
+const moment = require('moment');
 
 module.exports.get = (req, next) => {
     try {
@@ -22,7 +24,8 @@ module.exports.create = (req, next) => {
     try {
         let params;
 
-        req.body.Code = helper.generateCode();
+        const code = helper.generateCode();
+        req.body.Code = code;
 
         helper.checkNumber(req, 'EventId', helper.REQUIRED);
         helper.checkNumber(req, 'UserId', helper.OPTIONAL);
@@ -32,10 +35,22 @@ module.exports.create = (req, next) => {
         helper.checkString(req, 'Code', helper.OPTIONAL);
 
         params = helper.getParameters(StatementType.Create);
+        const to = req.body.Email;
 
         helper.exec('sp_Volunteers', params, (err, data) => {
-            // TODO: send email
-            console.log('need to send email');
+            if(!err) {
+                const event = helper.processResults(data.recordset[0]);
+                const subject = `Registration for ${event.title}`;
+                let email = require('../../email-templates/volunteer-register');
+                
+                email = email.replace('##EVENT_TITLE##', event.title)
+                             .replace('##EVENT_START##', moment(event.start).format('MMMM Do YYYY hh:mm a'))
+                             .replace('##EVENT_END##', moment(event.end).format('MMMM Do YYYY hh:mm a'))
+                             .replace('##EVENT_LOCATION##', event.location ?? 'No location specified')
+                             .replace('##REGISTRATION_CODE##', code);
+
+                helper.sendEmail(to, subject, email);
+            }
 
             next(err, data);
         });

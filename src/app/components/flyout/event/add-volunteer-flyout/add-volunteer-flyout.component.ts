@@ -63,7 +63,6 @@ export class AddVolunteerFlyoutComponent implements OnInit, OnDestroy {
       ).subscribe(
         events => {
           Helper.showSuccess(this.toast, 'Volunteered for event!');
-          this.store.dispatch(setEvents({ events }));
           this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));
         },
         err => Helper.showError(this.toast, err.error.message)
