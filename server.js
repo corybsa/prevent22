@@ -108,7 +108,7 @@ app.use(session({
         path: '/',
         httpOnly: true,
         secure: false, // require HTTPS connection in prod
-        sameSite: false, // blocks CORS requests on cookies
+        sameSite: true, // blocks CORS requests on cookies
         maxAge: sessionTimeout * 1000
     },
     store: new FileStore({
@@ -124,7 +124,7 @@ app.use(csrf(), (req, res, next) => {
     res.cookie('XSRF-TOKEN', req.csrfToken(), {
         path: '/',
         secure: false, // require HTTPS connection in prod
-        sameSite: false // block CORS requests
+        sameSite: true // block CORS requests
     });
     next();
 });
