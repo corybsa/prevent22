@@ -25,7 +25,7 @@ export class VolunteerService {
         FirstName: string,
         LastName: string,
         Email: string
-    ): Observable<Event[]> {
+    ): Observable<Event> {
         const url = '/api/events/volunteer';
         const data = {
             EventId,
@@ -35,7 +35,7 @@ export class VolunteerService {
             Email
         };
         
-        return this.http.post<Event[]>(url, data);
+        return this.http.post<Event>(url, data);
     }
 
     cancelVolunteer(VolunteerId: number): Observable<Event[]> {

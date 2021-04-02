@@ -12,7 +12,7 @@ router.post('/', (req, res) => {
 
     Volunteer.create(req, (err, data) => {
         if(!err) {
-            res.status(200).json(helper.processResults(data.recordset));
+            res.status(200).json(helper.processResults(data.recordset[0]));
         } else {
             res.status(400).json(err);
         }
