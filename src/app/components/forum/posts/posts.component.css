@@ -6,23 +6,23 @@
     margin: 0;
 }
 
-.post-action-edit {
+.post-action {
     cursor: pointer;
+    padding: 10px;
+}
+
+.post-action-edit {
     color: hsl(188, 78%, 41%);
     font-size: 0.9rem;
 }
 
 .post-action-warn {
-    cursor: pointer;
     color: hsl(45, 100%, 51%);
     font-size: 0.9rem;
-    margin-left: 10px;
 }
 
 .post-action-delete {
-    cursor: pointer;
     color: red;
-    margin-left: 10px;
 }
 
 @media (max-width: 576px) {

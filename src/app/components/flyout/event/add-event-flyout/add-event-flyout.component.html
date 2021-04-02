@@ -1,0 +1,72 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit()">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="title">Title</label>
+            <input type="text" class="form-control" id="title" name="title" [(ngModel)]="event.title" required #title="ngModel" />
+            <div [hidden]="!showTitleMessage" class="form-error">Event title is required.</div>
+        </div>
+    </div>
+
+    <div class="row col-12 form-group">
+        <label for="title">Description</label>
+        <div class="col-12">
+            <p-editor id="description" name="description" [(ngModel)]="event.description" required #description="ngModel" [style]="{'height': '320px'}"></p-editor>
+        </div>
+    </div>
+
+    <div class="mb-2 form-check">
+        <input type="checkbox" class="form-check-input" id="allDay" name="allDay" [(ngModel)]="event.allDay" #allDay="ngModel" />
+        <label for="allDay" class="form-check-label">All day event?</label>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="start">Start Date</label>
+        </div>
+        <div class="col-12 mb-2">
+            <p-calendar
+                id="start"
+                name="start"
+                [required]="true"
+                [(ngModel)]="event.start"
+                [showTime]="!event.allDay"
+                hourFormat="12"
+                [touchUI]="helper.isMobile()"
+                #start="ngModel"
+            ></p-calendar>
+            <div [hidden]="!showStartMessage" class="form-error">Start date is required.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12">
+            <label for="start">End Date</label>
+        </div>
+        <div class="col-12 mb-2">
+            <p-calendar
+                id="end"
+                name="end"
+                [required]="true"
+                [(ngModel)]="event.end"
+                [showTime]="!event.allDay"
+                hourFormat="12"
+                [touchUI]="helper.isMobile()"
+                #end="ngModel"
+            ></p-calendar>
+            <div [hidden]="!showEndMessage" class="form-error">End date is required.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="location">Location</label>
+            <input type="text" class="form-control" id="location" name="location" [(ngModel)]="event.location" required #location="ngModel" />
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit">Submit</button>
+        </div>
+    </div>
+</form>

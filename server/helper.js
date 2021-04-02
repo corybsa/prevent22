@@ -100,6 +100,10 @@ class Helper {
             const paramsLog = params.map(param => param.value);
 
             for (let i = 0; i < paramsLog.length; i++) {
+                if(paramsLog[i] === null) {
+                    paramsLog[i] = 'null';
+                    continue;
+                }
                 switch (this.getParamType(paramsLog[i])) {
                     case sql.Bit:
                         break;
@@ -176,6 +180,11 @@ class Helper {
         }
 
         return strArray.join('');
+    }
+
+    generateCode() {
+        const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
+        return this.shuffleString(str).substring(0, 6);
     }
 
     /* getMulter(folder, hashName = true) {
@@ -350,13 +359,11 @@ class Helper {
         switch (dataType) {
             case sql.Int:
             case sql.TinyInt:
-                return 0;
-            case sql.Bit:
-                return false;
+            case sql.NVarChar:
             case sql.DateTime:
                 return null;
-            case sql.NVarChar:
-                return '';
+            case sql.Bit:
+                return false;
             default:
                 return '';
         }

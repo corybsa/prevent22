@@ -28,8 +28,10 @@
     </div>
 
     <div class="row" *ngIf="warning.ShouldBanUser">
-        <div class="col-6">
+        <div class="col-12">
             <label for="banUntil">Ban until</label>
+        </div>
+        <div class="col-12 mb-2">
             <p-calendar
                 id="banUntil"
                 name="banUntil"
@@ -38,7 +40,7 @@
                 [minDate]="today"
                 [showTime]="true"
                 hourFormat="12"
-                dateFormat="formatter.HUMAN_DATETIME_NO_SECONDS"
+                [touchUI]="helper.isMobile()"
                 #banUntil="ngModel"
             ></p-calendar>
         </div>

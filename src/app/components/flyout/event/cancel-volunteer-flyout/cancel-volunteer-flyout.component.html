@@ -1,0 +1,15 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="code">Enter the code emailed to you</label>
+            <input type="text" class="form-control" id="code" name="code" maxlength="6" [(ngModel)]="model.code" required #code="ngModel" />
+            <div [hidden]="code.valid || code.pristine" class="form-error">Code is required.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Submit</button>
+        </div>
+    </div>
+</form>

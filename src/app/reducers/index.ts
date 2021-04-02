@@ -2,6 +2,7 @@ import { ActionReducerMap, MetaReducer } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { Flyout } from '../models/flyout/flyout';
 import { User } from '../models/user/user';
+import { eventsReducer, EventsState } from '../state/events/events.reducer';
 import { flyoutReducer } from '../state/flyout/flyout.reducer';
 import { forumReducer, ForumState } from '../state/forums/forums.reducer';
 import { postsReducer, PostsState } from '../state/posts/posts.reducer';
@@ -14,6 +15,7 @@ export interface AppState {
   forums: ForumState;
   threads: ThreadsState;
   posts: PostsState;
+  events: EventsState;
 }
 
 export const reducers: ActionReducerMap<AppState> = {
@@ -21,7 +23,8 @@ export const reducers: ActionReducerMap<AppState> = {
   flyout: flyoutReducer,
   forums: forumReducer,
   threads: threadsReducer,
-  posts: postsReducer
+  posts: postsReducer,
+  events: eventsReducer
 };
 
 

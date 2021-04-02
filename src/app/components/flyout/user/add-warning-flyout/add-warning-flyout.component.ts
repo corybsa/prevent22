@@ -27,7 +27,7 @@ export class AddWarningFlyoutComponent implements OnInit {
   post: Post;
   user: User;
   today = new Date();
-  formatter = Formatter;
+  helper = Helper;
 
   constructor(
     private warningService: WarningsService,

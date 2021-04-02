@@ -27,14 +27,14 @@
                         <p class="m-0" style="font-size: 0.8rem;"><em>{{ post.RoleName }}</em></p>
 
                         <ng-container *ngIf="user && user.hasRole([systemRoles.Admin, systemRoles.Moderator])">
-                            <span (click)="editPost(post)">
-                                <i class="fa fa-edit post-action-edit" pTooltip="Edit post" tooltipPosition="top"></i>
+                            <span class="post-action" pTooltip="Edit post" tooltipPosition="top" (click)="editPost(post)">
+                                <i class="fa fa-edit post-action-edit"></i>
                             </span>
-                            <span (click)="warnUser(post)">
-                                <i class="fa fa-exclamation post-action-warn" pTooltip="Warn user" tooltipPosition="top"></i>
+                            <span class="post-action" pTooltip="Warn user" tooltipPosition="top" (click)="warnUser(post)">
+                                <i class="fa fa-exclamation post-action-warn"></i>
                             </span>
-                            <span (click)="deletePost(post)">
-                                <i class="fa fa-times post-action-delete" pTooltip="Delete post" tooltipPosition="top"></i>
+                            <span class="post-action" pTooltip="Delete post" tooltipPosition="top" (click)="deletePost(post)">
+                                <i class="fa fa-times post-action-delete"></i>
                             </span>
                         </ng-container>
                     </div>

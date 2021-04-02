@@ -6,6 +6,7 @@ import { FlyoutForumModule } from './forum/flyout-forum.module';
 import { FlyoutThreadModule } from './thread/flyout-thread.module';
 import { FlyoutPostModule } from './post/flyout-post.module';
 import { FlyoutUserModule } from './user/flyout-user.module';
+import { FlyoutEventModule } from './event/flyout-event.module';
 
 @NgModule({
   declarations: [
@@ -17,7 +18,8 @@ import { FlyoutUserModule } from './user/flyout-user.module';
     FlyoutForumModule,
     FlyoutThreadModule,
     FlyoutPostModule,
-    FlyoutUserModule
+    FlyoutUserModule,
+    FlyoutEventModule
   ],
   exports: [
     FlyoutComponent

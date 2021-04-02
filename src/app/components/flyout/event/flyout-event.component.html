@@ -1,0 +1,21 @@
+<ng-container [ngSwitch]="content">
+    <ng-container *ngSwitchCase="flyoutContent.Events.Add">
+        <app-add-event-flyout></app-add-event-flyout>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="flyoutContent.Events.Edit">
+        <app-edit-event-flyout></app-edit-event-flyout>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="flyoutContent.Events.Volunteer.Add">
+        <app-add-volunteer-flyout></app-add-volunteer-flyout>
+    </ng-container>
+
+    <ng-container *ngSwitchCase="flyoutContent.Events.Volunteer.Details">
+        
+    </ng-container>
+
+    <ng-container *ngSwitchCase="flyoutContent.Events.Volunteer.Cancel">
+        <app-cancel-volunteer-flyout></app-cancel-volunteer-flyout>
+    </ng-container>
+</ng-container>

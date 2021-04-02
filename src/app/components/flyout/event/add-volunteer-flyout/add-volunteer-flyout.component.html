@@ -1,0 +1,32 @@
+<form #form="ngForm" name="form" (ngSubmit)="submit()">
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="firstName">First name</label>
+            <input type="text" class="form-control" id="firstName" name="firstName" [(ngModel)]="volunteer.FirstName" required #firstName="ngModel" />
+            <div [hidden]="firstName.valid || firstName.pristine" class="form-error">First name is required.</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="lastName">Last name</label>
+            <input type="text" class="form-control" id="lastName" name="lastName" [(ngModel)]="volunteer.LastName" required #lastName="ngModel" />
+            <div [hidden]="lastName.valid || lastName.pristine" class="form-error">Last name is required.</div>
+        </div>
+    </div>
+    
+    <div class="row">
+        <div class="col-12 form-group">
+            <label for="email">Email</label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="volunteer.Email" required #email="ngModel" />
+            <div [hidden]="email.valid || email.pristine" class="form-error">Email is required.</div>
+        </div>
+    </div>
+
+    <div class="row">
+        <div class="col-12 form-group">
+            <button class="btn btn-p22" type="submit">Submit</button>
+            <p class="volunteer-link" (click)="cancelVolunteer()">I want to cancel my registration for this event!</p>
+        </div>
+    </div>
+</form>

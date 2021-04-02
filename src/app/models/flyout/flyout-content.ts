@@ -16,4 +16,14 @@ export class FlyoutContent {
     static User = {
         AddWarning: 'create warning'
     };
+
+    static Events = {
+        Add: 'create event',
+        Edit: 'edit event',
+        Volunteer: {
+            Add: 'add volunteer',
+            Details: 'volunteer details',
+            Cancel: 'cancel volunteer'
+        }
+    };
 }

@@ -38,7 +38,7 @@ module.exports.create = (req, next) => {
         helper.checkString(req, 'ThreadName', helper.REQUIRED);
         helper.checkNumber(req, 'CreatedBy', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Create);
+        params = helper.getParameters(req, true, StatementType.Create);
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
@@ -57,7 +57,7 @@ module.exports.update = (req, next) => {
         helper.checkDateTime(req, 'CreatedDate', helper.REQUIRED);
         helper.checkBoolean(req, 'IsClosed', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Update);
+        params = helper.getParameters(req, true, StatementType.Update);
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
@@ -71,7 +71,7 @@ module.exports.delete = (req, next) => {
 
         helper.checkNumber(req, 'ThreadId', helper.REQUIRED);
 
-        params = helper.getParameters(req, false, StatementType.Delete);
+        params = helper.getParameters(req, true, StatementType.Delete);
 
         helper.exec('sp_Threads', params, next);
     } catch(e) {
