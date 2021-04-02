@@ -13,6 +13,7 @@ import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { EventsService } from 'src/app/services/events/events.service';
 import * as moment from 'moment';
 import { Helper } from 'src/app/models/helper';
+import { SystemRoles } from 'src/app/models/user/system-roles';
 
 @Component({
   selector: 'app-calendar',
@@ -49,8 +50,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
         center: 'title',
         end: 'dayGridMonth,listWeek'
       },
-      editable: true,
-      eventResizableFromStart: true,
+      editable: false,
+      eventResizableFromStart: false,
       windowResize: this.resizeWindow.bind(this),
       dateClick: this.addEvent.bind(this),
       eventClick: this.editEvent.bind(this),
@@ -71,6 +72,8 @@ export class CalendarComponent implements OnInit, AfterViewInit {
       this.user = user;
       this.events = events;
       this.options.events = this.events;
+      this.options.editable = this.user?.hasRole(SystemRoles.Admin);
+      this.options.eventResizableFromStart = this.user?.hasRole(SystemRoles.Admin);
     });
   }
 
@@ -79,6 +82,10 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   addEvent(e) {
+    if(!this.user?.hasRole(SystemRoles.Admin)) {
+      return;
+    }
+
     const event = new Event();
     event.start = e.date;
     event.end = e.date;
@@ -88,7 +95,6 @@ export class CalendarComponent implements OnInit, AfterViewInit {
   }
 
   editEvent(e) {
-    console.log(e);
     const event = new Event();
     event.id = e.event.id;
     event.allDay = e.event.allDay;
@@ -104,18 +110,32 @@ export class CalendarComponent implements OnInit, AfterViewInit {
     event.endRecur = e.event._def.recurringDef?.typeData.endRecur;
     event.groupId = e.event.groupId;
 
-    console.log(event);
+    let title;
+
+    if(this.user?.hasRole(SystemRoles.Admin)) {
+      title = `Update ${e.event.title}`;
+    } else {
+      title = `Info for ${e.event.title}`;
+    }
 
     this.store.dispatch(setEvent({ event }));
-    this.store.dispatch(setFlyoutContent({ title: `Update ${e.event.title}`, content: FlyoutContent.Events.Edit }));
+    this.store.dispatch(setFlyoutContent({ title, content: FlyoutContent.Events.Edit }));
     this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Open }));
   }
 
   resizeEvent(e) {
+    if(!this.user?.hasRole(SystemRoles.Admin)) {
+      return;
+    }
+
     console.log(e);
   }
 
   moveEvent(e) {
+    if(!this.user?.hasRole(SystemRoles.Admin)) {
+      return;
+    }
+
     console.log(e);
   }
 }
