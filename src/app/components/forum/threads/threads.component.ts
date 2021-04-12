@@ -55,9 +55,7 @@ export class ThreadsComponent implements OnInit {
       this.user = user;
       this.threads = threads;
       
-      if(this.threads.length > 0) {
-        this.loading = false;
-      }
+      this.loading = false;
     });
 
     this.getThreads();
