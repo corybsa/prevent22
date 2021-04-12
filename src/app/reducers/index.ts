@@ -7,10 +7,10 @@ import { flyoutReducer } from '../state/flyout/flyout.reducer';
 import { forumReducer, ForumState } from '../state/forums/forums.reducer';
 import { postsReducer, PostsState } from '../state/posts/posts.reducer';
 import { threadsReducer, ThreadsState } from '../state/threads/threads.reducer';
-import { userReducer } from '../state/user/user.reducer';
+import { userReducer, UserState } from '../state/user/user.reducer';
 
 export interface AppState {
-  user: User;
+  user: UserState;
   flyout: Flyout;
   forums: ForumState;
   threads: ThreadsState;

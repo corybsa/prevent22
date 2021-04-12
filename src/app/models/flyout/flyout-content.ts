@@ -14,7 +14,8 @@ export class FlyoutContent {
     };
 
     static User = {
-        AddWarning: 'create warning'
+        AddWarning: 'create warning',
+        Update: 'update user info'
     };
 
     static Events = {

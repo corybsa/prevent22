@@ -2,6 +2,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { LoginComponent } from './components/login/login.component';
 import { RegisterComponent } from './components/register/register.component';
+import { SystemRoles } from './models/user/system-roles';
 import { AuthGuard } from './services/auth/auth.guard';
 
 const routes: Routes = [
@@ -10,6 +11,7 @@ const routes: Routes = [
   { path: 'resources', loadChildren: () => import('./components/resources/resources.module').then(m => m.ResourcesModule), canActivate: [AuthGuard] },
   { path: 'forums', loadChildren: () => import('./components/forum/forum.module').then(m => m.ForumModule), canActivate: [AuthGuard] },
   { path: 'events', loadChildren: () => import('./components/events/events.module').then(m => m.EventsModule), canActivate: [AuthGuard] },
+  { path: 'admin', loadChildren: () => import('./components/admin/admin.module').then(m => m.AdminModule), canActivate: [AuthGuard], data: { allow: [SystemRoles.Admin] } },
   { path: 'login', component: LoginComponent },
   { path: 'register', component: RegisterComponent },
   { path: '', redirectTo: 'home', pathMatch: 'full' }

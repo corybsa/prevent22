@@ -17,7 +17,7 @@ import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.a
 import { setForum } from 'src/app/state/forums/forums.actions';
 import { setThread, setThreads } from 'src/app/state/threads/threads.actions';
 import { selectThreads } from 'src/app/state/threads/threads.selectors';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-threads',
@@ -49,7 +49,7 @@ export class ThreadsComponent implements OnInit {
     );
     
     combineLatest([
-      this.store.select(selectUser),
+      this.store.select(selectCurrentUser),
       this.store.select(selectThreads)
     ]).subscribe(([user, threads]) => {
       this.user = user;

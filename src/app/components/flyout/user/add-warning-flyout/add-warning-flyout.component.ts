@@ -1,10 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
 import { combineLatest, Subscription } from 'rxjs';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
-import { Formatter } from 'src/app/models/formatter';
 import { Helper } from 'src/app/models/helper';
 import { Post } from 'src/app/models/post/post';
 import { User } from 'src/app/models/user/user';
@@ -13,14 +12,14 @@ import { UsersService } from 'src/app/services/users/users.service';
 import { WarningsService } from 'src/app/services/warnings/warnings.service';
 import { setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
 import { selectPost } from 'src/app/state/posts/posts.selectors';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-add-warning-flyout',
   templateUrl: './add-warning-flyout.component.html',
   styleUrls: ['./add-warning-flyout.component.css']
 })
-export class AddWarningFlyoutComponent implements OnInit {
+export class AddWarningFlyoutComponent implements OnInit, OnDestroy {
   subs: Subscription[] = [];
   warning = new Warning();
   userWarnings: Warning[];
@@ -38,7 +37,7 @@ export class AddWarningFlyoutComponent implements OnInit {
     this.subs.push(
       combineLatest([
         this.store.select(selectPost),
-        this.store.select(selectUser)
+        this.store.select(selectCurrentUser)
       ]).subscribe(([post, user]) => {
         this.post = post;
         this.user = user;

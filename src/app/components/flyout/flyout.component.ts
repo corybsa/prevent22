@@ -9,7 +9,7 @@ import { Helper } from "src/app/models/helper";
 import { User } from "src/app/models/user/user";
 import { navFlyoutBack, setFlyoutStatus } from "src/app/state/flyout/flyout.actions";
 import { selectFlyout } from "src/app/state/flyout/flyout.selectors";
-import { selectUser } from "src/app/state/user/user.selectors";
+import { selectCurrentUser } from "src/app/state/user/user.selectors";
 
 declare const $: any;
 declare const window: any;
@@ -41,7 +41,7 @@ export class FlyoutComponent implements OnDestroy {
 
     this.subscriptions.push(
       combineLatest([
-        this.store.select(selectUser),
+        this.store.select(selectCurrentUser),
         this.store.select(selectFlyout)
       ]).subscribe(([user, flyout]) => {
         if (flyout === null) {

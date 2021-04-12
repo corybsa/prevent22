@@ -10,11 +10,10 @@ import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
 import { Volunteer } from 'src/app/models/volunteer/volunteer';
 import { EventsService } from 'src/app/services/events/events.service';
-import { VolunteerService } from 'src/app/services/events/volunteer.service';
 import { setEvents } from 'src/app/state/events/events.actions';
 import { selectEvent } from 'src/app/state/events/events.selectors';
 import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 import { Event } from '../../../../models/event/event';
 
 @Component({
@@ -42,7 +41,7 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
     this.subs.push(
       combineLatest([
         this.store.select(selectEvent),
-        this.store.select(selectUser)
+        this.store.select(selectCurrentUser)
       ]).subscribe(([event, user]) => {
         this.event = Helper.copy(event);
         this.user = user;

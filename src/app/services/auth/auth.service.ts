@@ -1,9 +1,11 @@
 import { Injectable } from "@angular/core";
-import { HttpClient, HttpParams } from "@angular/common/http";
+import { HttpClient } from "@angular/common/http";
 import { Observable } from "rxjs";
 import { select, Store } from "@ngrx/store";
-import { selectUser } from "src/app/state/user/user.selectors";
+import { selectCurrentUser } from "src/app/state/user/user.selectors";
 import { User } from "src/app/models/user/user";
+import { map } from "rxjs/operators";
+import * as moment from "moment";
 
 @Injectable({ providedIn: 'root' })
 export class AuthService {
@@ -19,13 +21,18 @@ export class AuthService {
             Password: password
         };
 
-        return this.http.post<User>(url, options);
+        return this.http.post<User>(url, options).pipe(
+            map(user => {
+                user.BannedUntil = moment(user.BannedUntil).toDate();
+                return user;
+            })
+        );
     }
 
     check(): Observable<User> {
         const url = '/api/auth/check';
         let user: User;
-        this.store.pipe(select(selectUser)).subscribe(res => user = res);
+        this.store.pipe(select(selectCurrentUser)).subscribe(res => user = res);
 
         if(user) {
             return new Observable(o => {
@@ -34,7 +41,12 @@ export class AuthService {
             });
         }
 
-        return this.http.post<User>(url, null);
+        return this.http.post<User>(url, null).pipe(
+            map(user => {
+                user.BannedUntil = moment(user.BannedUntil).toDate();
+                return user;
+            })
+        );
     }
 
     logout() {
@@ -54,6 +66,11 @@ export class AuthService {
             confirmPassword
         };
 
-        return this.http.post<User>(url, options);
+        return this.http.post<User>(url, options).pipe(
+            map(user => {
+                user.BannedUntil = moment(user.BannedUntil).toDate();
+                return user;
+            })
+        );
     }
 }

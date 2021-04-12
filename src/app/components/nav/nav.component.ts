@@ -5,8 +5,8 @@ import { tap } from 'rxjs/operators';
 import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { setUser } from 'src/app/state/user/user.actions';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { setCurrentUser } from 'src/app/state/user/user.actions';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-nav',
@@ -24,7 +24,7 @@ export class NavComponent implements OnInit {
   ) { }
 
   ngOnInit(): void {
-    this.store.pipe(select(selectUser)).subscribe(user => {
+    this.store.pipe(select(selectCurrentUser)).subscribe(user => {
       this.user = user;
     });
   }
@@ -32,7 +32,7 @@ export class NavComponent implements OnInit {
   logout() {
     this.authService.logout()
       .pipe(
-        tap(() => this.store.dispatch(setUser({ user: null })))
+        tap(() => this.store.dispatch(setCurrentUser({ user: null })))
       ).subscribe(() => window.location.replace('/'));
   }
 }

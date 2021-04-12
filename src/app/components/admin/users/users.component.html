@@ -1,0 +1,48 @@
+<div class="pc-4 p-4">
+    <div class="container">
+        <p-card header="Manage Users">
+            <p-table
+                [value]="users"
+                [loading]="loading"
+                [rowsPerPageOptions]="rowsPerPageOptions"
+                [paginator]="true"
+                [rows]="rows"
+                [rowHover]="true"
+                [globalFilterFields]="globalFilterFields"
+                (onPage)="changePage($event)"
+            >
+                <ng-template pTemplate="caption">
+                    <div class="p-d-flex">
+                        <button pButton label="Clear" class="p-button-outlined" icon="pi pi-filter-slash" (click)="clearFilters(table)"></button>
+                        <span class="p-input-icon-left p-ml-auto grid-search">
+                            <i class="pi pi-search"></i>
+                            <input pInputText type="text" (input)="table.filterGlobal($event.target.value, 'contains')" placeholder="Search" />
+                        </span>
+                    </div>
+                </ng-template>
+                <ng-template pTemplate="header">
+                    <tr>
+                        <th>Username</th>
+                        <th>Role</th>
+                        <th>First name</th>
+                        <th>Last name</th>
+                        <th>Email</th>
+                        <th>Banned?</th>
+                    </tr>
+                </ng-template>
+                <ng-template pTemplate="body" let-user>
+                    <tr (click)="updateUser(user)" style="cursor: pointer;">
+                        <td>{{ user.Username }}</td>
+                        <td>{{ user.RoleName }}</td>
+                        <td>{{ user.FirstName }}</td>
+                        <td>{{ user.LastName }}</td>
+                        <td>
+                            <a href="mailto:{{ user.Email }}">{{ user.Email }}</a>
+                        </td>
+                        <td>{{ user.IsBanned ? 'Yes' : 'No' }}</td>
+                    </tr>
+                </ng-template>
+            </p-table>
+        </p-card>
+    </div>
+</div>

@@ -51,7 +51,7 @@
                         <a class="dropdown-item" routerLink="/profile">Profile</a>
                         <ng-container *ngIf="user.hasRole(roles.Admin)">
                             <div class="dropdown-divider dropdown-admin-divider">Admin Options</div>
-                            <a class="dropdown-item" routerLink="/admin">Manage Users</a>
+                            <a class="dropdown-item" routerLink="/admin/users">Manage Users</a>
                         </ng-container>
                         <div class="dropdown-divider"></div>
                         <a class="dropdown-item" routerLink="" (click)="logout()">Logout</a>

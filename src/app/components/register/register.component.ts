@@ -6,7 +6,7 @@ import { MessageService } from 'primeng/api';
 import { tap } from 'rxjs/operators';
 import { Helper } from 'src/app/models/helper';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { setUser } from 'src/app/state/user/user.actions';
+import { setCurrentUser } from 'src/app/state/user/user.actions';
 
 @Component({
   selector: 'app-register',
@@ -54,7 +54,7 @@ export class RegisterComponent implements OnInit {
       this.userModel.confirmPassword
     )
     .pipe(
-      tap(user => this.store.dispatch(setUser({ user })))
+      tap(user => this.store.dispatch(setCurrentUser({ user })))
     )
     .subscribe(
       () => {

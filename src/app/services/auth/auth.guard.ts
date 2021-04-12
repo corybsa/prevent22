@@ -7,7 +7,7 @@ import { catchError, map } from "rxjs/operators";
 import { Helper } from "src/app/models/helper";
 import { SystemRoles } from "src/app/models/user/system-roles";
 import { User } from "src/app/models/user/user";
-import { setUser } from "src/app/state/user/user.actions";
+import { setCurrentUser } from "src/app/state/user/user.actions";
 import { AuthService } from "./auth.service";
 
 @Injectable({ providedIn: 'root' })
@@ -28,7 +28,8 @@ export class AuthGuard implements CanActivate {
                     }
 
                     if(user.UserId) {
-                        this.store.dispatch(setUser({ user: User.getInstance(user) }));
+                        user = User.getInstance(user);
+                        this.store.dispatch(setCurrentUser({ user }));
                     }
 
                     if (route.data) {

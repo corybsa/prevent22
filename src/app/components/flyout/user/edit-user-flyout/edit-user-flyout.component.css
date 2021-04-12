@@ -1,0 +1,7 @@
+::ng-deep #role {
+    display: block;
+}
+
+::ng-deep #role > div {
+    width: 100%;
+}

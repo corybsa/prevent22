@@ -19,7 +19,7 @@ import { setPost, setPosts } from 'src/app/state/posts/posts.actions';
 import { selectPosts } from 'src/app/state/posts/posts.selectors';
 import { setThread } from 'src/app/state/threads/threads.actions';
 import { selectThread } from 'src/app/state/threads/threads.selectors';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-posts',
@@ -52,7 +52,7 @@ export class PostsComponent implements OnInit {
     combineLatest([
       this.store.select(selectThread),
       this.store.select(selectPosts),
-      this.store.select(selectUser)
+      this.store.select(selectCurrentUser)
     ]).subscribe(([thread, posts, user]) => {
       this.thread = thread;
       this.posts = posts;

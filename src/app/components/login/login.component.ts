@@ -7,7 +7,7 @@ import { tap } from 'rxjs/operators';
 import { Helper } from 'src/app/models/helper';
 import { User } from 'src/app/models/user/user';
 import { AuthService } from 'src/app/services/auth/auth.service';
-import { setUser } from 'src/app/state/user/user.actions';
+import { setCurrentUser } from 'src/app/state/user/user.actions';
 
 @Component({
   selector: 'app-login',
@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     if(form.valid) {
       this.authService.login(this.userModel.username, this.userModel.password)
         .pipe(
-          tap(user => this.store.dispatch(setUser({ user: User.getInstance(user) })))
+          tap(user => this.store.dispatch(setCurrentUser({ user: User.getInstance(user) })))
         ).subscribe(
           user => {
             if(user) {

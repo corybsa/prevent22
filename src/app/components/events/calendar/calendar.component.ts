@@ -3,7 +3,7 @@ import { Event } from 'src/app/models/event/event';
 import { CalendarOptions, FullCalendarComponent } from '@fullcalendar/angular';
 import { User } from 'src/app/models/user/user';
 import { Store } from '@ngrx/store';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 import { combineLatest } from 'rxjs';
 import { selectEvents } from 'src/app/state/events/events.selectors';
 import { setEvent, setEvents } from 'src/app/state/events/events.actions';
@@ -66,7 +66,7 @@ export class CalendarComponent implements OnInit, AfterViewInit {
 
   ngAfterViewInit() {
     combineLatest([
-      this.store.select(selectUser),
+      this.store.select(selectCurrentUser),
       this.store.select(selectEvents)
     ]).subscribe(([user, events]) => {
       this.user = user;

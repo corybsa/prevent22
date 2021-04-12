@@ -12,7 +12,7 @@ import { VolunteerService } from 'src/app/services/events/volunteer.service';
 import { setEvents } from 'src/app/state/events/events.actions';
 import { selectEvent } from 'src/app/state/events/events.selectors';
 import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-add-volunteer-flyout',
@@ -33,7 +33,7 @@ export class AddVolunteerFlyoutComponent implements OnInit, OnDestroy {
     this.subs.push(
       combineLatest([
         this.store.select(selectEvent),
-        this.store.select(selectUser)
+        this.store.select(selectCurrentUser)
       ]).subscribe(([event, user]) => {
         this.event = Helper.copy(event);
         this.user = user;

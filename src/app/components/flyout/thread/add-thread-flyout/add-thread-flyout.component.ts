@@ -14,7 +14,7 @@ import { PostsService } from 'src/app/services/forums/posts.service';
 import { ThreadsService } from 'src/app/services/forums/threads.service';
 import { setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
 import { selectForum } from 'src/app/state/forums/forums.selectors';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 
 @Component({
   selector: 'app-add-thread-flyout',
@@ -35,7 +35,7 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
     private store: Store
   ) {
     this.subs.push(
-      this.store.select(selectUser).subscribe(user => this.user = user),
+      this.store.select(selectCurrentUser).subscribe(user => this.user = user),
       this.store.select(selectForum).subscribe(forum => this.forum = forum)
     );
   }

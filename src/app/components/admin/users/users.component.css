@@ -1,0 +1,22 @@
+.grid-search {
+    float: right;
+}
+
+::ng-deep .grid-search,
+::ng-deep .grid-search input {
+    width: 125px;
+}
+
+@media screen and (min-width: 400px) {
+    ::ng-deep .grid-search,
+    ::ng-deep .grid-search input {
+        width: 150px;
+    }
+}
+
+@media screen and (min-width: 490px) {
+    ::ng-deep .grid-search,
+    ::ng-deep .grid-search input  {
+        width: auto;
+    }
+}

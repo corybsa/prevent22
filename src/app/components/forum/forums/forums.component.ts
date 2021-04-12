@@ -5,7 +5,7 @@ import { ForumsService } from 'src/app/services/forums/forums.service';
 import { Formatter } from 'src/app/models/formatter';
 import { User } from 'src/app/models/user/user';
 import { Store } from '@ngrx/store';
-import { selectUser } from 'src/app/state/user/user.selectors';
+import { selectCurrentUser } from 'src/app/state/user/user.selectors';
 import { SystemRoles } from 'src/app/models/user/system-roles';
 import { setFlyoutContent, setFlyoutStatus } from 'src/app/state/flyout/flyout.actions';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
@@ -37,7 +37,7 @@ export class ForumsComponent implements OnInit {
     private router: Router
   ) {
     combineLatest([
-      this.store.select(selectUser),
+      this.store.select(selectCurrentUser),
       this.store.select(selectAllForums)
     ]).subscribe(([user, forums]) => {
       this.user = user;

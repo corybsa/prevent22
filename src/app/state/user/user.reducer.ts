@@ -1,10 +1,28 @@
 import { createReducer, on } from "@ngrx/store";
+import { Helper } from "src/app/models/helper";
 import { User } from "src/app/models/user/user";
-import { setUser } from "./user.actions";
+import { setCurrentUser, setUser } from "./user.actions";
 
-export const initialState: Readonly<User> = null;
+export interface UserState {
+    current: User;
+    user: User;
+}
+
+export const initialState: UserState = {
+    current: null,
+    user: null
+};
 
 export const userReducer = createReducer(
     initialState,
-    on(setUser, (state, { user }) => user)
+    on(setCurrentUser, (state, { user }) => {
+        const newState: UserState = Helper.copy(state);
+        newState.current = user;
+        return newState;
+    }),
+    on(setUser, (state, { user }) => {
+        const newState: UserState = Helper.copy(state);
+        newState.user = user;
+        return newState;
+    })
 );

@@ -7,17 +7,23 @@ import { UsersService } from "src/app/services/users/users.service";
 import { WarningsService } from "src/app/services/warnings/warnings.service";
 import { AddWarningFlyoutComponent } from './add-warning-flyout/add-warning-flyout.component';
 import { FlyoutUserComponent } from "./flyout-user.component";
+import { EditUserFlyoutComponent } from './edit-user-flyout/edit-user-flyout.component';
+import { DropdownModule } from "primeng/dropdown";
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
     declarations: [
         FlyoutUserComponent,
-        AddWarningFlyoutComponent
+        AddWarningFlyoutComponent,
+        EditUserFlyoutComponent
     ],
     imports: [
         CommonModule,
         FormsModule,
         ToastModule,
-        CalendarModule
+        CalendarModule,
+        DropdownModule,
+        InputMaskModule
     ],
     exports: [
         FlyoutUserComponent
