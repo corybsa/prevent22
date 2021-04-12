@@ -10,3 +10,8 @@ export const setEvent = createAction(
     '[Events] Set Event',
     props<{ event: Event }>()
 );
+
+export const setUserEvents = createAction(
+    '[Events] Set User Events',
+    props<{ events: Event[] }>()
+);

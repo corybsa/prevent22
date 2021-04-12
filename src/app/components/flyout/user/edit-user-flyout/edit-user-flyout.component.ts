@@ -39,6 +39,7 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
         ([user, currentUser]) => {
           this.initialBanValue = user.IsBanned;
           this.user = Helper.copy(user);
+          this.user.BannedUntil = moment(this.user.BannedUntil).toDate();
           this.currentUser = currentUser;
         },
         err => Helper.showError(this.toast, err.error.message)
@@ -63,6 +64,8 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
 
   submit(form: NgForm) {
     if(form.valid) {
+      const offset = moment(new Date()).utcOffset();
+
       this.subs.push(
         this.userService.update(
           this.user.UserId,
@@ -77,7 +80,7 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
           this.user.Address,
           this.user.Phone,
           !!this.user.IsBanned,
-          !!this.user.IsBanned ? this.user.BannedUntil : null,
+          !!this.user.IsBanned ? moment(this.user.BannedUntil).subtract(offset, 'minutes').toDate() : null,
           (!!this.user.IsBanned || this.user.BannedById) ? this.user.BannedById : null
         ).subscribe(
           user => {

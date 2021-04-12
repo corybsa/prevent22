@@ -1,0 +1,134 @@
+<div class="px-4 pb-4">
+    <div class="container">
+        <h3>Profile</h3>
+        <p-tabView>
+            <p-tabPanel header="Bio">
+                <form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="firstname">First Name</label>
+                            <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="user.FirstName" autocomplete="given-name" required #firstname="ngModel">
+                            <div [hidden]="firstname.valid || firstname.pristine" class="form-error">First name is required.</div>
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="lastname">Last Name</label>
+                            <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="user.LastName" autocomplete="family-name" required #lastname="ngModel">
+                            <div [hidden]="lastname.valid || lastname.pristine" class="form-error">Last name is required.</div>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="email">Email</label>
+                            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.Email" autocomplete="email" required #email="ngModel">
+                            <div [hidden]="email.valid || email.pristine" class="form-error">Email is required.</div>
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="phone">Phone</label>
+                            <p-inputMask mask="(999) 999-9999" placeholder="(999) 999-9999" styleClass="form-control" id="phone" name="phone" [(ngModel)]="user.Phone" autocomplete="tel" #phone="ngModel"></p-inputMask>
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="country">Country</label>
+                            <input type="text" class="form-control" id="country" name="country" [(ngModel)]="user.Country" autocomplete="country-name" #country="ngModel">
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="state">State</label>
+                            <input type="text" class="form-control" id="state" name="state" [(ngModel)]="user.State" autocomplete="address-level1" #state="ngModel">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="city">City</label>
+                            <input type="text" class="form-control" id="city" name="city" [(ngModel)]="user.City" autocomplete="address-level2" #city="ngModel">
+                        </div>
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="zipCode">Zip code</label>
+                            <input type="text" class="form-control" id="zipCode" name="zipCode" [(ngModel)]="user.ZipCode" autocomplete="postal-code" #zipCode="ngModel">
+                        </div>
+                    </div>
+                    <div class="row">
+                        <div class="col-12 col-sm-6 form-group">
+                            <label for="address">Address</label>
+                            <input type="text" class="form-control" id="address" name="address" [(ngModel)]="user.Address" autocomplete="street-address" #address="ngModel">
+                        </div>
+                    </div>
+                
+                    <div class="row">
+                        <div class="col-12 form-group">
+                            <button class="btn btn-p22" type="submit" [disabled]="!form.valid">Submit</button>
+                        </div>
+                    </div>
+                </form>
+            </p-tabPanel>
+            <p-tabPanel header="Events">
+                <p-table
+                    [value]="events"
+                    [loading]="eventsLoading"
+                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [paginator]="true"
+                    [rows]="rows"
+                    [rowHover]="true"
+                    (onPage)="changePage($event)"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Title</th>
+                            <th>Start</th>
+                            <th>End</th>
+                            <th>Location</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-event>
+                        <tr (click)="eventDetails(event)" style="cursor: pointer;">
+                            <td>{{ event.title }}</td>
+                            <td>{{ event.start | humanDate:'datetimeshort' }}</td>
+                            <td>{{ event.end | humanDate:'datetimeshort' }}</td>
+                            <td>{{ event.location }}</td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="3">
+                                Not registered to volunteer for any events. <a routerLink="/events">Click here to find an event!</a>
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+            <p-tabPanel header="Warnings">
+                <p-table
+                    [value]="warnings"
+                    [loading]="warningsLoading"
+                    [rowsPerPageOptions]="rowsPerPageOptions"
+                    [paginator]="true"
+                    [rows]="rows"
+                    [rowHover]="false"
+                    (onPage)="changePage($event)"
+                >
+                    <ng-template pTemplate="header">
+                        <tr>
+                            <th>Issued</th>
+                            <th>Reason</th>
+                            <th>Post Message</th>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="body" let-warning>
+                        <tr>
+                            <td>{{ warning.WarningDate | humanDate:'datetimeshort' }}</td>
+                            <td>{{ warning.WarningReason }}</td>
+                            <td [innerHtml]="warning.PostMessage"></td>
+                        </tr>
+                    </ng-template>
+                    <ng-template pTemplate="emptymessage">
+                        <tr>
+                            <td [attr.colspan]="3">
+                                You have not received any warnings!
+                            </td>
+                        </tr>
+                    </ng-template>
+                </p-table>
+            </p-tabPanel>
+        </p-tabView>
+    </div>
+</div>

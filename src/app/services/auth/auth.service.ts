@@ -21,12 +21,7 @@ export class AuthService {
             Password: password
         };
 
-        return this.http.post<User>(url, options).pipe(
-            map(user => {
-                user.BannedUntil = moment(user.BannedUntil).toDate();
-                return user;
-            })
-        );
+        return this.http.post<User>(url, options);
     }
 
     check(): Observable<User> {
@@ -41,12 +36,7 @@ export class AuthService {
             });
         }
 
-        return this.http.post<User>(url, null).pipe(
-            map(user => {
-                user.BannedUntil = moment(user.BannedUntil).toDate();
-                return user;
-            })
-        );
+        return this.http.post<User>(url, null);
     }
 
     logout() {
@@ -66,11 +56,6 @@ export class AuthService {
             confirmPassword
         };
 
-        return this.http.post<User>(url, options).pipe(
-            map(user => {
-                user.BannedUntil = moment(user.BannedUntil).toDate();
-                return user;
-            })
-        );
+        return this.http.post<User>(url, options);
     }
 }

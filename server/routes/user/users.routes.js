@@ -19,6 +19,21 @@ router.get('/', (req, res) => {
     });
 });
 
+router.get('/events', (req, res) => {
+    if(!req.isAuthenticated()) {
+        res.status(440).json({ message: 'User not logged in.' });
+        return;
+    }
+
+    Users.getEvents(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
 router.get('/warnings', (req, res) => {
     if(!req.isAuthenticated()) {
         res.status(440).json({ message: 'User not logged in.' });

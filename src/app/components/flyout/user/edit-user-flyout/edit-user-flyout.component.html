@@ -2,25 +2,25 @@
     <div class="row">
         <div class="col-12 col-sm-6 form-group">
             <label for="firstname">First Name</label>
-            <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="user.FirstName" required #firstname="ngModel">
-            <div [hidden]="firstname.valid || firstname.pristine">First name is required.</div>
+            <input type="text" class="form-control" id="firstname" name="firstname" [(ngModel)]="user.FirstName" autocomplete="given-name" required #firstname="ngModel">
+            <div [hidden]="firstname.valid || firstname.pristine" class="form-error">First name is required.</div>
         </div>
         <div class="col-12 col-sm-6 form-group">
             <label for="lastname">Last Name</label>
-            <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="user.LastName" required #lastname="ngModel">
-            <div [hidden]="lastname.valid || lastname.pristine">Last name is required.</div>
+            <input type="text" class="form-control" id="lastname" name="lastname" [(ngModel)]="user.LastName" autocomplete="family-name" required #lastname="ngModel">
+            <div [hidden]="lastname.valid || lastname.pristine" class="form-error">Last name is required.</div>
         </div>
     </div>
     <div class="row">
         <div class="col-12 col-sm-6 form-group">
             <label for="email">Email</label>
-            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.Email" required #email="ngModel">
-            <div [hidden]="email.valid || email.pristine">Email is required.</div>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="user.Email" autocomplete="email" required #email="ngModel">
+            <div [hidden]="email.valid || email.pristine" class="form-error">Email is required.</div>
         </div>
         <div class="col-12 col-sm-6 form-group">
             <label for="role">Role</label>
             <p-dropdown id="role" name="role" [options]="roles" [(ngModel)]="user.RoleId" #role="ngModel"></p-dropdown>
-            <div [hidden]="role.valid || role.pristine">Role is required.</div>
+            <div [hidden]="role.valid || role.pristine" class="form-error">Role is required.</div>
         </div>
     </div>
     <div class="row">

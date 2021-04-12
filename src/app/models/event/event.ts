@@ -1,5 +1,6 @@
 export class Event {
     id: string;
+    volunteerId?: number;
     allDay?: boolean;
     start: Date;
     end: Date;

@@ -4,6 +4,7 @@ import * as moment from "moment";
 import { Observable } from "rxjs";
 import { map } from "rxjs/operators";
 import { User } from "src/app/models/user/user";
+import { Event } from 'src/app/models/event/event';
 import { Warning } from "src/app/models/warning/warning";
 import { NetworkHelperService } from "../network-helper.service";
 
@@ -17,14 +18,14 @@ export class UsersService {
     getAll(): Observable<User[]> {
         const url = '/api/user';
         
-        return this.http.get<User[]>(url).pipe(
-            map(users => {
-                return users.map(user => {
-                    user.BannedUntil = moment(user.BannedUntil).toDate();
-                    return user;
-                });
-            })
-        );
+        return this.http.get<User[]>(url);
+    }
+
+    getEvents(UserId: number): Observable<Event[]> {
+        const url = '/api/user/events';
+        const data = this.helper.getParams({ UserId });
+
+        return this.http.get<Event[]>(url, data);
     }
 
     getWarnings(UserId: number): Observable<Warning[]> {
@@ -68,11 +69,6 @@ export class UsersService {
             BannedById
         };
 
-        return this.http.post<User>(url, data).pipe(
-            map(user => {
-                user.BannedUntil = moment(user.BannedUntil).toDate();
-                return user;
-            })
-        );
+        return this.http.post<User>(url, data);
     }
 }

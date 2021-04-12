@@ -44,6 +44,8 @@ export class EditEventFlyoutComponent implements OnInit, OnDestroy {
         this.store.select(selectCurrentUser)
       ]).subscribe(([event, user]) => {
         this.event = Helper.copy(event);
+        this.event.start = moment(this.event.start).toDate();
+        this.event.end = moment(this.event.end).toDate();
         this.user = user;
 
         this.getVolunteers();

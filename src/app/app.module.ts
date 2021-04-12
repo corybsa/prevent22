@@ -21,6 +21,13 @@ import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { PipesModule } from './pipes/pipes.module';
 import { HomeComponent } from './components/home/home.component';
+import { ProfileComponent } from './components/profile/profile.component';
+import { TabViewModule } from 'primeng/tabview';
+import { UsersService } from './services/users/users.service';
+import { EventsService } from './services/events/events.service';
+import { WarningsService } from './services/warnings/warnings.service';
+import { TableModule } from 'primeng/table';
+import { InputMaskModule } from 'primeng/inputmask';
 
 @NgModule({
   declarations: [
@@ -29,7 +36,8 @@ import { HomeComponent } from './components/home/home.component';
     LoginComponent,
     RegisterComponent,
     PasswordValidatorDirective,
-    HomeComponent
+    HomeComponent,
+    ProfileComponent
   ],
   imports: [
     BrowserModule,
@@ -43,12 +51,18 @@ import { HomeComponent } from './components/home/home.component';
     ServiceWorkerModule.register('ngsw-worker.js', { enabled: environment.production }),
     FlyoutModule,
     ToastModule,
-    PipesModule
+    PipesModule,
+    TabViewModule,
+    TableModule,
+    InputMaskModule
   ],
   providers: [
     AuthGuard,
     AuthService,
-    MessageService
+    MessageService,
+    UsersService,
+    EventsService,
+    WarningsService
   ],
   bootstrap: [AppComponent]
 })

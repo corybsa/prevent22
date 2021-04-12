@@ -11,3 +11,8 @@ export const selectEvent = createSelector(
     (state: AppState) => state.events,
     (events: EventsState) => events.current
 );
+
+export const selectUserEvents = createSelector(
+    (state: AppState) => state.events,
+    (events: EventsState) => events.user
+);
