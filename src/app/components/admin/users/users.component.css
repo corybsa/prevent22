@@ -7,6 +7,12 @@
     width: 125px;
 }
 
+::ng-deep .p-paginator-pages,
+::ng-deep p-paginator p-dropdown {
+    width: 100%;
+    text-align: center;
+}
+
 @media screen and (min-width: 400px) {
     ::ng-deep .grid-search,
     ::ng-deep .grid-search input {
@@ -14,9 +20,48 @@
     }
 }
 
+@media screen and (max-width: 320px) {
+    ::ng-deep .p-card-body {
+        padding: 0 !important;
+    }
+}
+
+@media screen and (max-width: 490px) {
+    .px-4.p-4 {
+        padding-left: 0 !important;
+        padding-right: 0 !important;
+    }
+
+    div.container {
+        padding: 0;
+    }
+}
+
 @media screen and (min-width: 490px) {
+    ::ng-deep .p-paginator-pages,
+    ::ng-deep p-paginator p-dropdown {
+        width: auto;
+        text-align: initial;
+    }
+
     ::ng-deep .grid-search,
     ::ng-deep .grid-search input  {
         width: auto;
+    }
+}
+
+@media screen and (max-width: 768px) {
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th {
+        padding-left: 0;
+        padding-right: 0;
+    }
+    
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th .header-title {
+        display: block;
+        text-align: center;
+    }
+    
+    ::ng-deep .p-datatable .p-datatable-thead > tr > th:not(:first-of-type) {
+        border-left: 1px solid hsl(210, 14%, 89%);
     }
 }
