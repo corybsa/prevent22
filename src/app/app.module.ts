@@ -20,6 +20,7 @@ import { FlyoutModule } from './components/flyout/flyout.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
 import { PipesModule } from './pipes/pipes.module';
+import { HomeComponent } from './components/home/home.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { PipesModule } from './pipes/pipes.module';
     NavComponent,
     LoginComponent,
     RegisterComponent,
-    PasswordValidatorDirective
+    PasswordValidatorDirective,
+    HomeComponent
   ],
   imports: [
     BrowserModule,
