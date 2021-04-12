@@ -43,9 +43,7 @@ export class ForumsComponent implements OnInit {
       this.user = user;
       this.forums = forums;
 
-      if(this.forums.length > 0) {
-        this.loading = false;
-      }
+      this.loading = false;
     });
 
     this.forumService

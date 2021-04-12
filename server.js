@@ -81,7 +81,7 @@ app.use(cookieParser());
 app.use(helmet({
     contentSecurityPolicy: {
         directives: {
-            "connect-src": ["'self'"],
+            "connect-src": ["'self'", "*"],
             "default-src": ["'self'"],
             "font-src": ["'self'", "data:", "https://stackpath.bootstrapcdn.com"],
             "img-src": ["'self'", "data:"],
