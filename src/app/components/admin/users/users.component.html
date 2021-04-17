@@ -23,23 +23,23 @@
                 <ng-template pTemplate="header">
                     <tr>
                         <th>Username</th>
-                        <th>Role</th>
-                        <th>First name</th>
-                        <th>Last name</th>
+                        <th *ngIf="!isMobile">Role</th>
+                        <th *ngIf="!isMobile">First name</th>
+                        <th *ngIf="!isMobile">Last name</th>
                         <th>Email</th>
-                        <th>Banned?</th>
+                        <th *ngIf="!isMobile">Banned?</th>
                     </tr>
                 </ng-template>
                 <ng-template pTemplate="body" let-user>
                     <tr (click)="updateUser(user)" style="cursor: pointer;">
                         <td>{{ user.Username }}</td>
-                        <td>{{ user.RoleName }}</td>
-                        <td>{{ user.FirstName }}</td>
-                        <td>{{ user.LastName }}</td>
+                        <td *ngIf="!isMobile">{{ user.RoleName }}</td>
+                        <td *ngIf="!isMobile">{{ user.FirstName }}</td>
+                        <td *ngIf="!isMobile">{{ user.LastName }}</td>
                         <td>
                             <a href="mailto:{{ user.Email }}">{{ user.Email }}</a>
                         </td>
-                        <td>{{ user.IsBanned ? 'Yes' : 'No' }}</td>
+                        <td *ngIf="!isMobile">{{ user.IsBanned ? 'Yes' : 'No' }}</td>
                     </tr>
                 </ng-template>
             </p-table>

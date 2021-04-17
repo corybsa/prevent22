@@ -1,0 +1,54 @@
+<div class="main"
+    style="background-image: url('assets/images/flag-at-sunset-cropped.jpg'); background-size: cover; background-position: center;">
+    <div class="container-fluid">
+        <div class="row align-items-center justify-content-center" [style.height.px]="windowHeight">
+            <div class="col-12 col-sm-8 col-lg-6">
+                <div class="card">
+                    <div class="card-body">
+                        <form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="username">Username</label>
+                                    <input
+                                        type="text"
+                                        class="form-control"
+                                        id="username"
+                                        name="username"
+                                        [(ngModel)]="userModel.username"
+                                        required
+                                        #username="ngModel" />
+                                    <div [hidden]="username.valid || username.pristine" style="color: red;">Username is required</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <label for="password">Password</label>
+                                    <input
+                                        type="password"
+                                        class="form-control"
+                                        id="password"
+                                        name="password"
+                                        [(ngModel)]="userModel.password"
+                                        required
+                                        #password="ngModel" />
+                                    <div [hidden]="password.valid || password.pristine" style="color: red;">Password is required</div>
+                                </div>
+                            </div>
+
+                            <div class="row">
+                                <div class="col-12 form-group">
+                                    <button type="submit" class="btn btn-danger" [disabled]="!form.valid">Login</button>
+                                </div>
+                            </div>
+
+                            <p>New around here? <a routerLink="/auth/register" class="p22-link">Create an account</a>.</p>
+                            
+                            <p><a routerLink="/auth/forgot" class="p22-link">I forgot my password</a>.</p>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

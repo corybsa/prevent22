@@ -68,4 +68,24 @@ router.post('/', (req, res) => {
     });
 });
 
+router.post('/reset-password-request', (req, res) => {
+    Users.resetPassword(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
+router.post('/reset-password', (req, res) => {
+    Users.updatePassword(req, (err, data) => {
+        if(!err) {
+            res.status(200).json(helper.processResults(data.recordset));
+        } else {
+            res.status(400).json(err);
+        }
+    });
+});
+
 module.exports = router;

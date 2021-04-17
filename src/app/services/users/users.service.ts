@@ -71,4 +71,18 @@ export class UsersService {
 
         return this.http.post<User>(url, data);
     }
+
+    resetPasswordRequest(Email: string): Observable<null> {
+        const url = '/api/user/reset-password-request';
+        const data = { Email };
+
+        return this.http.post<null>(url, data);
+    }
+
+    resetPassword(Password: string, Code: string): Observable<null> {
+        const url = '/api/user/reset-password';
+        const data = { Password, Code };
+
+        return this.http.post<null>(url, data);
+    }
 }

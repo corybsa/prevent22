@@ -34,7 +34,7 @@ export class AuthGuard implements CanActivate {
 
                     if (route.data) {
                         if(route.data.shouldBeLoggedIn && !user.UserId) {
-                            this.router.navigate(['/login']);
+                            this.router.navigate(['/auth/login']);
                             return false;
                         }
 
@@ -51,7 +51,7 @@ export class AuthGuard implements CanActivate {
                         }
 
                         if(!allowed) {
-                            this.router.parseUrl('/login');
+                            this.router.parseUrl('/auth/login');
                             return false;
                         }
                     }
@@ -60,7 +60,7 @@ export class AuthGuard implements CanActivate {
                 }),
                 catchError(err => {
                     Helper.showError(this.toast, err.error.message);
-                    this.router.navigate(['/login']);
+                    this.router.navigate(['/auth/login']);
                     return new Observable<boolean>(o => o.complete());
                 })
             ).toPromise();

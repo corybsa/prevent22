@@ -47,7 +47,7 @@ module.exports.register = (req, next) => {
         
         helper.hashPassword(req.body.password, (err, hash) => {
             params = [
-                { name: 'StatementType', type: sql.NVarChar, value: StatementType.Create },
+                { name: 'StatementType', type: sql.Int, value: StatementType.Create },
                 { name: 'Username', type: sql.NVarChar, value: req.body.username },
                 { name: 'Hash', type: sql.NVarChar, value: hash }
             ];

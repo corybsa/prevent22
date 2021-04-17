@@ -57,9 +57,7 @@ export class RegisterComponent implements OnInit {
       tap(user => this.store.dispatch(setCurrentUser({ user })))
     )
     .subscribe(
-      () => {
-        this.router.navigate(['/']);
-      },
+      () => this.router.navigate(['/']),
       err => Helper.showError(this.toast, err.error.message)
     );
   }

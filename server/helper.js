@@ -197,9 +197,9 @@ class Helper {
         return strArray.join('');
     }
 
-    generateCode() {
+    generateCode(length = 6) {
         const str = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890';
-        return this.shuffleString(str).substring(0, 6);
+        return this.shuffleString(str).substring(0, length);
     }
 
     /* getMulter(folder, hashName = true) {

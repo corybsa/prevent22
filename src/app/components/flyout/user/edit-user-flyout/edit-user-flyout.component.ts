@@ -27,7 +27,7 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
   initialBanValue: boolean;
 
   constructor(
-    private userService: UsersService,
+    private service: UsersService,
     private toast: MessageService,
     private store: Store
   ) {
@@ -67,7 +67,7 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
       const offset = moment(new Date()).utcOffset();
 
       this.subs.push(
-        this.userService.update(
+        this.service.update(
           this.user.UserId,
           this.user.RoleId,
           this.user.FirstName,
@@ -91,5 +91,21 @@ export class EditUserFlyoutComponent implements OnInit, OnDestroy {
         )
       );
     }
+  }
+
+  resetPassword() {
+    if(this.user.Email === null) {
+      Helper.showError(this.toast, 'Cannot reset password because there is no email associated with this account. Please enter an email to reset the password.', true);
+      return;
+    }
+
+    this.subs.push(
+      this.service.resetPasswordRequest(this.user.Email).subscribe(
+        () => {
+          Helper.showSuccess(this.toast, 'User has been notified via email about password reset!');
+        },
+        err => Helper.showError(this.toast, err.error.message)
+      )
+    );
   }
 }

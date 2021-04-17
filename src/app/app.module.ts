@@ -11,11 +11,8 @@ import { ServiceWorkerModule } from '@angular/service-worker';
 import { NavComponent } from './components/nav/nav.component';
 import { AuthService } from './services/auth/auth.service';
 import { HttpClientModule } from '@angular/common/http';
-import { LoginComponent } from './components/login/login.component';
 import { FormsModule } from '@angular/forms';
 import { AuthGuard } from './services/auth/auth.guard';
-import { RegisterComponent } from './components/register/register.component';
-import { PasswordValidatorDirective } from './directives/password-validator.directive';
 import { FlyoutModule } from './components/flyout/flyout.module';
 import { ToastModule } from 'primeng/toast';
 import { MessageService } from 'primeng/api';
@@ -33,9 +30,6 @@ import { InputMaskModule } from 'primeng/inputmask';
   declarations: [
     AppComponent,
     NavComponent,
-    LoginComponent,
-    RegisterComponent,
-    PasswordValidatorDirective,
     HomeComponent,
     ProfileComponent
   ],

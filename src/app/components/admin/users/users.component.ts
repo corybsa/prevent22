@@ -17,6 +17,7 @@ import { setUser } from 'src/app/state/user/user.actions';
 })
 export class UsersComponent implements OnInit {
   users: User[];
+  isMobile = Helper.isMobile();
 
   loading = true;
   rows = 10;
