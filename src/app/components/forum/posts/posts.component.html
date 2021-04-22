@@ -23,8 +23,8 @@
                 </div>
                 <div class="row pt-2 pb-2">
                     <div class="col-12 col-lg-2 col-sm-4 post-author">
-                        <p class="m-0">{{ post.Author }}</p>
-                        <p class="m-0" style="font-size: 0.8rem;"><em>{{ post.RoleName }}</em></p>
+                        <p class="m-0">{{ post.Author }} <span *ngIf="post.IsThreadCreator" pTooltip="Thread Creator" tooltipPosition="top">(TC)</span></p>
+                        <p *ngIf="post.RoleName" class="m-0" style="font-size: 0.8rem;"><em>{{ post.RoleName }}</em></p>
 
                         <ng-container *ngIf="user && user.hasRole([systemRoles.Admin, systemRoles.Moderator])">
                             <span class="post-action" pTooltip="Edit post" tooltipPosition="top" (click)="editPost(post)">
@@ -53,15 +53,35 @@
             (onPageChange)="changePage($event)"
         ></p-paginator>
 
-        <ng-container *ngIf="user">
+        <ng-container>
             <h5 style="margin-top: 10px;">Reply to this thread</h5>
 
             <form #form="ngForm" name="form" (ngSubmit)="submitReply(form)">
+                <div class="row" *ngIf="!user">
+                    <div class="col-12 form-group">
+                        <label for="email">Email <span style="color: red;">(we'll send you a code so you can reply to this thread. Your email will <strong>NOT</strong> be published!)</span></label>
+                        <input type="email" class="form-control" id="email" name="email" [(ngModel)]="reply.Email" email required #email="ngModel" />
+                        <div [hidden]="email.valid || email.pristine" class="form-error">A valid email is required.</div>
+                    </div>
+                </div>
+
+                <div class="row" *ngIf="!user">
+                    <div class="col-12 form-group">
+                        <label for="code">Reply Code <span>(if you have a code, enter it here)</span></label>
+                        <input type="code" class="form-control" id="code" name="code" [(ngModel)]="reply.Code" #code="ngModel" />
+                    </div>
+                </div>
+
                 <div class="row">
                     <div class="col-12 form-group">
                         <p-editor id="replyMessage" name="replyMessage" [(ngModel)]="reply.Message" required #replyMessage="ngModel" [style]="{'height': '320px'}"></p-editor>
                         <div [hidden]="replyMessage.valid || replyMessage.pristine" class="form-error">A message is required to reply.</div>
                     </div>
+                </div>
+
+                <div class="mb-2 form-check" *ngIf="user">
+                    <input type="checkbox" class="form-check-input" id="isAnonymous" name="isAnonymous" [(ngModel)]="reply.IsAnonymous" #isAnonymous="ngModel" />
+                    <label for="isAnonymous" class="form-check-label">Post anonymously</label>
                 </div>
 
                 <div class="row">

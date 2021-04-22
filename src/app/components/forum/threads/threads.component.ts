@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { MessageService } from 'primeng/api';
@@ -24,7 +24,7 @@ import { selectCurrentUser } from 'src/app/state/user/user.selectors';
   templateUrl: './threads.component.html',
   styleUrls: ['./threads.component.css']
 })
-export class ThreadsComponent implements OnInit {
+export class ThreadsComponent implements OnInit, OnDestroy {
   forumId: number;
   threads: Thread[];
   user: User;
@@ -54,8 +54,6 @@ export class ThreadsComponent implements OnInit {
     ]).subscribe(([user, threads]) => {
       this.user = user;
       this.threads = threads;
-      
-      this.loading = false;
     });
 
     this.getThreads();
@@ -64,12 +62,19 @@ export class ThreadsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy() {
+    this.store.dispatch(setThreads({ threads: [] }));
+  }
+
   getThreads() {
     this.service
       .getAll(this.forumId)
       .pipe(first())
       .subscribe(
-        threads => this.store.dispatch(setThreads({ threads })),
+        threads => {
+          this.store.dispatch(setThreads({ threads }));
+          this.loading = false;
+        },
         err => Helper.showError(this.toast, err.error.message)
       );
   }

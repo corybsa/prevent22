@@ -87,7 +87,7 @@ module.exports.updatePassword = (req, next) => {
             helper.exec('sp_Users', params, (err, data) => {
                 if(!err) {
                     const to = data.recordset[0].email;
-                    const subject = `Password reset request`;
+                    const subject = 'Prevent 22 - Password reset request';
                     let email = require('../../email-templates/reset-password-confirm');
                     helper.sendEmail(to, subject, email);
                 }
@@ -115,7 +115,7 @@ module.exports.resetPassword = (req, next) => {
 
         helper.exec('sp_Users', params, (err, data) => {
             if(!err) {
-                const subject = 'Password reset request';
+                const subject = 'Prevent 22 - Password reset request';
                 let email = require('../../email-templates/reset-password-request');
                 
                 email = email.replace('##PASSWORD_TOKEN##', code);

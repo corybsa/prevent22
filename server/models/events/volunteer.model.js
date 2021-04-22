@@ -40,7 +40,7 @@ module.exports.create = (req, next) => {
         helper.exec('sp_Volunteers', params, (err, data) => {
             if(!err) {
                 const event = helper.processResults(data.recordset[0]);
-                const subject = `Registration for ${event.title}`;
+                const subject = `Prevent 22 - Registration for ${event.title}`;
                 let email = require('../../email-templates/volunteer-register');
                 
                 email = email.replace('##EVENT_TITLE##', event.title)

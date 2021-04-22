@@ -55,7 +55,13 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
 
   createThread() {
     this.subs.push(
-      this.threadService.create(this.forum.BoardId, this.thread.ThreadName, this.user.UserId).subscribe(
+      this.threadService.create(
+        this.forum.BoardId,
+        this.thread.ThreadName,
+        this.user?.UserId,
+        !this.user ? true : this.thread.IsAnonymous,
+        this.user ? this.user.Email : this.thread.Email
+      ).subscribe(
         thread => this.createPost(thread),
         err => Helper.showError(this.toast, err.error.message)
       )
@@ -64,7 +70,14 @@ export class AddThreadFlyoutComponent implements OnInit, OnDestroy {
 
   createPost(thread: Thread) {
     this.subs.push(
-      this.postService.create(this.post.Message, this.user.UserId, thread.ThreadId).subscribe(
+      this.postService.create(
+        this.post.Message,
+        this.user?.UserId,
+        thread.ThreadId,
+        thread.IsAnonymous,
+        this.user ? this.user.Email : this.thread.Email,
+        thread.Code
+      ).subscribe(
         post => {
           Helper.showSuccess(this.toast, 'Thread created!');
           this.store.dispatch(setFlyoutStatus({ status: FlyoutStatus.Closed }));

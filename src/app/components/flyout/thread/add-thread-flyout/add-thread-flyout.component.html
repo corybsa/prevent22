@@ -1,4 +1,12 @@
 <form #form="ngForm" name="form" (ngSubmit)="submit(form)">
+    <div class="row" *ngIf="!user">
+        <div class="col-12 form-group">
+            <label for="email">Email <span style="color: red;">(we'll send you a code so you can reply to this thread. Your email will <strong>NOT</strong> be published!)</span></label>
+            <input type="email" class="form-control" id="email" name="email" [(ngModel)]="thread.Email" email required #email="ngModel" />
+            <div [hidden]="email.valid || email.pristine" class="form-error">A valid email is required.</div>
+        </div>
+    </div>
+
     <div class="row">
         <div class="col-12 form-group">
             <label for="threadName">Title</label>
@@ -13,6 +21,11 @@
             <p-editor id="postMessage" name="postMessage" [(ngModel)]="post.Message" required #postMessage="ngModel" [style]="{'height': '320px'}"></p-editor>
             <div [hidden]="postMessage.valid || postMessage.pristine" class="form-error">A message is required to submit a post.</div>
         </div>
+    </div>
+
+    <div class="mb-2 form-check" *ngIf="user">
+        <input type="checkbox" class="form-check-input" id="isAnonymous" name="isAnonymous" [(ngModel)]="thread.IsAnonymous" #isAnonymous="ngModel" />
+        <label for="isAnonymous" class="form-check-label">Post anonymously</label>
     </div>
 
     <div class="row">

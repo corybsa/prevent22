@@ -18,12 +18,22 @@ export class PostsService {
         return this.http.get<Post[]>(url, data);
     }
 
-    create(Message: string, CreatedBy: number, ThreadId: number): Observable<Post> {
+    create(
+        Message: string,
+        CreatedBy: number,
+        ThreadId: number,
+        CreatorIsAnonymous?: boolean,
+        AnonymousEmail?: string,
+        AnonymousCode?: string
+    ): Observable<Post> {
         const url = '/api/forum/posts';
         const data = {
             Message,
             CreatedBy,
-            ThreadId
+            ThreadId,
+            CreatorIsAnonymous,
+            AnonymousEmail,
+            AnonymousCode
         };
 
         return this.http.post<Post>(url, data);

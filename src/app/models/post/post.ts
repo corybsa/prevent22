@@ -8,4 +8,5 @@ export class Post {
     Author: string;
     AuthorRole: number;
     RoleName: string;
+    IsThreadCreator: boolean;
 }

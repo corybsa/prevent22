@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnDestroy, OnInit } from '@angular/core';
 import { NgForm } from '@angular/forms';
 import { ActivatedRoute } from '@angular/router';
 import { Store } from '@ngrx/store';
@@ -9,6 +9,7 @@ import { FlyoutContent } from 'src/app/models/flyout/flyout-content';
 import { FlyoutStatus } from 'src/app/models/flyout/flyout-status';
 import { Helper } from 'src/app/models/helper';
 import { Post } from 'src/app/models/post/post';
+import { PostReply } from 'src/app/models/post/post-reply';
 import { Thread } from 'src/app/models/thread/thread';
 import { SystemRoles } from 'src/app/models/user/system-roles';
 import { User } from 'src/app/models/user/user';
@@ -26,11 +27,11 @@ import { selectCurrentUser } from 'src/app/state/user/user.selectors';
   templateUrl: './posts.component.html',
   styleUrls: ['./posts.component.css']
 })
-export class PostsComponent implements OnInit {
+export class PostsComponent implements OnInit, OnDestroy {
   forumId: number;
   thread = new Thread();
   posts: Post[];
-  reply = new Post();
+  reply = new PostReply();
   user: User;
   systemRoles = SystemRoles;
 
@@ -68,6 +69,10 @@ export class PostsComponent implements OnInit {
   ngOnInit(): void {
   }
 
+  ngOnDestroy() {
+    this.store.dispatch(setPosts({ posts: [] }));
+  }
+
   getThread(threadId) {
     this.threadService.get(threadId).subscribe(
       thread => this.store.dispatch(setThread({ thread })),
@@ -80,6 +85,10 @@ export class PostsComponent implements OnInit {
       posts => this.store.dispatch(setPosts({ posts })),
       err => Helper.showError(this.toast, err.error.message)
     );
+  }
+
+  isTC(thread: Thread, post: Post) {
+    return thread.CreatedBy === post.CreatedBy;
   }
 
   editPost(post: Post) {
@@ -107,12 +116,16 @@ export class PostsComponent implements OnInit {
   submitReply(form: NgForm) {
     this.postService.create(
       this.reply.Message,
-      this.user.UserId,
-      this.thread.ThreadId
+      this.user?.UserId,
+      this.thread.ThreadId,
+      !this.user ? true : this.reply.IsAnonymous,
+      this.user ? this.user.Email : this.reply.Email,
+      this.user ? null : this.reply.Code
     ).subscribe(
       post => {
         Helper.showSuccess(this.toast, 'Reply posted!');
         this.getPosts(post.ThreadId);
+        form.reset();
       },
       err => Helper.showError(this.toast, err.error.message)
     )

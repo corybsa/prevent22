@@ -9,4 +9,7 @@ export class Thread {
     Author: string;
     LastPostAuthor: string;
     PostCount: number;
+    Email: string;
+    IsAnonymous: boolean;
+    Code: string;
 }

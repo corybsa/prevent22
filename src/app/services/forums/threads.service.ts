@@ -29,12 +29,22 @@ export class ThreadsService {
         return this.http.get<Thread>(url, data);
     }
 
-    create(ForumId: number, ThreadName: string, CreatedBy: number): Observable<Thread> {
+    create(
+        ForumId: number,
+        ThreadName: string,
+        CreatedBy: number,
+        CreatorIsAnonymous?: boolean,
+        AnonymousEmail?: string,
+        AnonymousCode?: string
+    ): Observable<Thread> {
         const url = '/api/forum/threads';
         const data = {
             BoardId: ForumId,
             ThreadName,
-            CreatedBy
+            CreatedBy,
+            CreatorIsAnonymous,
+            AnonymousEmail,
+            AnonymousCode
         };
 
         return this.http.post<Thread>(url, data);

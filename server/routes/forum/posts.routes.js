@@ -15,11 +15,6 @@ router.get('/', (req, res) => {
 });
 
 router.post('/', (req, res) => {
-    if(!req.isAuthenticated()) {
-        res.status(440).json({ message: 'User not logged in.' });
-        return;
-    }
-
     Posts.create(req, (err, data) => {
         if(!err) {
             res.status(200).json(helper.processResults(data.recordset[0]));

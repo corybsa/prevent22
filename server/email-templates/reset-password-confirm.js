@@ -360,7 +360,7 @@ module.exports = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN
 												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr style="line-height:0px;line-height:0px;"><td style="padding-right: 0px; padding-left: 0px;" align="center"><![endif]-->
 												<div style="line-height:20px;font-size:1px">&nbsp;</div>
 												<a href="https://iamuncleguy.com/" target="_blank" style="display: inline-block; width: 100%; text-align: center">
-													<img class="center autowidth" align="center" border="0" alt="Prevent 22 Veterans logo" title="Prevent 22 Veterans logo" src="https://www.iamuncleguy.com/images/P22Veterans_Logo-Color.png" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;border: 0;height: auto;float: none" width="auto" />
+													<img class="center autowidth" align="center" border="0" alt="Prevent 22 Veterans logo" title="Prevent 22 Veterans logo" src="https://www.iamuncleguy.com/assets/images/P22Veterans_Logo-Color.png" style="outline: none;text-decoration: none;-ms-interpolation-mode: bicubic;clear: both;border: 0;height: auto;float: none" width="auto" />
 												</a>
 												<div style="line-height:1px;font-size:1px">&nbsp;</div>
 

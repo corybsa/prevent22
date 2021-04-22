@@ -371,15 +371,15 @@ module.exports = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN
 												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding: 0"><![endif]-->
 												<div style="color:#000;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;padding: 0;">
 													<p style="font-weight: bold; margin: 0;font-size: 24px;line-height: 32px;text-align: center;">
-														Password reset request
+														Forum reply code
 													</p>
 													<p style="margin: 0;font-size: 24px;line-height: 24px;text-align: left">&#160;</p>
 													<div style="font-size:18px;line-height:26px;margin: 24px 0 0 0;">
 														<p style="margin: 0">
-															You're receiving this email because there was a request to reset your password. The code needed to reset your password can be found below. If you did not request a password reset you can safely ignore this email.
+															You created a thread on the forum as an anonymous user. Using the code below will allow the system to recognize you as the thread creator and will put the (TC) tag on your posts to let others know that you are the thread creator. Just enter the code when replying to your thread.
 														</p>
-														<p style="margin: 24px 0 0 0">
-															<a href="https://iamuncleguy.com/auth/reset/##PASSWORD_TOKEN##">You can click here to go to the password reset form.</a>
+														<p style="font-size: 16px; line-height: 24px; margin: 20px 0 0 0; font-weight: bold;">
+															Your code is:
 														</p>
 													</div>
 												</div>
@@ -413,13 +413,22 @@ module.exports = `<!DOCTYPE HTML PUBLIC "-//W3C//DTD XHTML 1.0 Transitional //EN
 										<div style="border-top: 0px solid transparent; border-left: 0px solid transparent; border-bottom: 0px solid transparent; border-right: 0px solid transparent; padding-top:5px; padding-bottom:0px; padding-right: 0px; padding-left: 0px;">
 
 											<!--<![endif]-->
+											<div class="button-container left">
+
+												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0" style="border-spacing: 0; border-collapse: collapse; mso-table-lspace:0pt; mso-table-rspace:0pt;"><tr><td style="padding:0px; margin:0px;text-align:center;" align="center"><v:roundrect xmlns:v="urn:schemas-microsoft-com:vml" xmlns:w="urn:schemas-microsoft-com:office:word" href="" style="height:66pt; v-text-anchor:middle; width:350pt;" arcsize="5%" strokecolor="#E0E0E0" fillcolor="#ffffff"><w:anchorlock/><v:textbox inset="0,0,0,0"><center style="color:#000000; font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif; font-size:55px;"><![endif]-->
+												<div style="color: #000; background-color: #fff; margin: 0; border-radius: 5px; -webkit-border-radius: 5px; -moz-border-radius: 5px; max-width: 100%; width: 100%; border-radius: 12px; border: 1px solid rgba(0,0,0,0.12); padding: 10px 0; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif; text-align: center; mso-border-alt: none;">
+													<span style="font-family:monospace, Arial, 'Helvetica Neue', Helvetica, sans-serif;font-size:16px;"><span style="font-size: 21px; line-height: 55px; letter-spacing: 20px; display: inline-block; margin-left: 20px">##REPLY_CODE##</span></span>
+												</div>
+
+												<!--[if mso]></center></v:textbox></v:roundrect></td></tr></table><![endif]-->
+											</div>
 											<div class="">
 
 												<!--[if mso]><table width="100%" cellpadding="0" cellspacing="0" border="0"><tr><td style="padding:10px 0;"><![endif]-->
 												<div style="color:#000;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;line-height:120%; padding: 0px;">
 													<div style="font-size:12px;line-height:24px;color:#000;font-family:Arial, 'Helvetica Neue', Helvetica, sans-serif;text-align:left;">
 														<p style="margin: 0;font-size: 64px;line-height: 64px;text-align: left">&#160;</p>
-														<p style="margin: 0;font-size: 24px;line-height: 32px;text-align: left">Have questions?</p>
+														<p style="margin: 0;font-size: 24px;line-height: 32px;text-align: left">Have questions or trouble logging in?</p>
 														<p style="margin: 0;font-size: 18px;line-height: 18px;text-align: left">&#160;</p>
 														<p style="margin: 0;font-size: 18px;line-height: 26px;text-align: left">Just reply to this email or contact <a href="mailto:support@iamuncleguy.com" style="color: #2b189b">support@iamuncleguy.com</a></p>
 													</div>

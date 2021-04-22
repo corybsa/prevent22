@@ -42,15 +42,16 @@ export class ForumsComponent implements OnInit {
     ]).subscribe(([user, forums]) => {
       this.user = user;
       this.forums = forums;
-
-      this.loading = false;
     });
 
     this.forumService
       .getAll()
       .pipe(first())
       .subscribe(
-        forums => this.store.dispatch(setAllForums({ forums })),
+        forums => {
+          this.store.dispatch(setAllForums({ forums }));
+          this.loading = false;
+        },
         err => Helper.showError(this.toast, err.error.message)
       );
   }

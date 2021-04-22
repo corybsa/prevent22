@@ -1,11 +1,9 @@
 <div class="px-4 p-4">
 	<div class="container">
-        <ng-container *ngIf="user">
-            <button class="btn btn-p22" (click)="createThread()">Create new thread</button>
-        </ng-container>
         <a class="p22-link" routerLink="/forums" style="display: block;">
             <i class="fa fa-arrow-left" style="color: hsl(2, 83%, 58%) !important"></i> Back to forums
         </a>
+        <button class="btn btn-p22 mt-2 mb-2" (click)="createThread()">Create new thread</button>
         <p-table
             [value]="threads"
             [loading]="loading"
