@@ -153,6 +153,15 @@ app.all('*', fileSystemLimiter, (req, res) => {
    res.sendFile(path.join(__dirname, 'dist/prevent22/index.html'));
 });
 
+app.use(function(req, res, next) {
+    if((!req.secure) && (req.get('X-Forwarded-Proto') !== 'https')) {
+        res.redirect('https://' + req.get('Host') + req.url);
+    }
+    else {
+        next();
+    }
+});
+
 //Set port
 const port = process.env.PORT || '8081';
 app.set('port', port);
