@@ -15,7 +15,8 @@
     "e2e": "ng e2e",
     "dev": "echo module.exports = \"dev\"; > server/config/env.js && ng build --watch --aot",
     "prod": "echo module.exports = \"prod\"; > server/config/env.js && ng build --prod --aot --build-optimizer --optimization",
-    "upload": "echo module.exports = \"prod\"; > server/config/env.js && ng build --prod --aot --build-optimizer --optimization && eb deploy",
+    "upload-dev": "echo module.exports = \"dev\"; > server/config/env.js && ng build --prod --aot --build-optimizer --optimization && eb deploy",
+    "upload-prod": "echo module.exports = \"prod\"; > server/config/env.js && ng build --prod --aot --build-optimizer --optimization && eb deploy",
     "high-memory": "node --max_old_space_size=8000 ./node_modules/@angular/cli/bin/ng build --watch --aot"
   },
   "private": true,
